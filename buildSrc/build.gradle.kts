@@ -44,5 +44,5 @@ dependencies {
     implementation("edu.sc.seis.launch4j:launch4j:3.0.7")
     implementation("gradle.plugin.install4j.install4j.buildtools:gradle_publish:10.0.9")
     implementation("me.champeau.gradle:japicmp-gradle-plugin:0.4.6")
-    implementation("org.cyclonedx:cyclonedx-gradle-plugin:2.4.1")
+    implementation("org.cyclonedx:cyclonedx-gradle-plugin:3.5.1")
 }
