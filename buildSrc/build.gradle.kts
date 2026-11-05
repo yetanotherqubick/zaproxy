@@ -39,7 +39,7 @@ dependencies {
         exclude(group = "org.jenkins-ci")
     }
     // Gradle Plugins
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:6.25.0")
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:8.11.0")
     implementation("de.undercouch:gradle-download-task:5.7.0")
     implementation("edu.sc.seis.launch4j:launch4j:3.0.7")
     implementation("gradle.plugin.install4j.install4j.buildtools:gradle_publish:10.0.9")
