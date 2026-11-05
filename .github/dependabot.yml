@@ -11,8 +11,6 @@ updates:
         - "*"
   - package-ecosystem: "gradle"
     directory: "/"
-    exclude-paths:
-      - "buildSrc"
     schedule:
       interval: "weekly"
     groups:
@@ -22,6 +20,7 @@ updates:
           - "*"
     ignore:
       - dependency-name: "gradle-wrapper"
+        versions: [ ">= 9.0.0" ]
       - dependency-name: "com.google.errorprone:error_prone_core"
         versions: [ ">= 2.43.0" ] # versions 2.43.x and later require Java 21
       - dependency-name: "com.diffplug.spotless*" # newer versions lead to runtime error, will need to update the common zap plugin first
