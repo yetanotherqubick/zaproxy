@@ -1,5 +1,5 @@
 [versions]
-errorprone = "2.42.0"
+errorprone = "2.52.0"
 flatlaf = "3.8"
 log4j = "2.26.1"
 
