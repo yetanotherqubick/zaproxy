@@ -27,7 +27,7 @@ javahelp = "javax.help:javahelp:2.0.05"
 javaSemver = "com.github.zafarkhaja:java-semver:0.10.2"
 jerichoHtml = "net.htmlparser.jericho:jericho-html:3.4"
 jfreechart = "org.jfree:jfreechart:1.5.6"
-jgraphtcore = "org.jgrapht:jgrapht-core:0.9.2"
+jgraphtcore = "org.jgrapht:jgrapht-core:1.5.3"
 jsonlib = "net.sf.json-lib:json-lib:2.4"
 log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
 log4j-api12 = { module = "org.apache.logging.log4j:log4j-1.2-api", version.ref = "log4j" }
