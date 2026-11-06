@@ -3,6 +3,7 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
+        classpath("com.diffplug.spotless:spotless-plugin-gradle:6.25.0")
         classpath("org.zaproxy.common.settings:org.zaproxy.common.settings.gradle.plugin:0.5.0")
         classpath("io.github.ben-manes:gradle-versions-plugin:0.67.0")
     }
