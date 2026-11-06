@@ -135,7 +135,7 @@ tasks.register<CreateMainRelease>("createMainRelease") {
             }
             register("bom") {
                 val cyclonedxBom by tasks.existing(CycloneDxTask::class)
-                file.set(cyclonedxBom.map { project.layout.projectDirectory.file(File(it.destination.get(), "${it.outputName.get()}.json").absolutePath) })
+                file.set(cyclonedxBom.flatMap { it.jsonOutput })
                 contentType.set("application/json")
             }
         }

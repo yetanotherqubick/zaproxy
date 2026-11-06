@@ -23,9 +23,9 @@ val distDir = file("src/main/dist/")
 val bundledResourcesPath = "src/main/resources/org/zaproxy/zap/resources"
 
 val cyclonedxRuntimeBom by tasks.registering(CycloneDxTask::class) {
-    setIncludeConfigs(listOf(JavaPlugin.RUNTIME_CLASSPATH_CONFIGURATION_NAME))
-    setDestination(layout.buildDirectory.dir("reports/bom-runtime").get().asFile)
-    setOutputFormat("json")
+    includeConfigs.set(listOf(JavaPlugin.RUNTIME_CLASSPATH_CONFIGURATION_NAME))
+    jsonOutput.set(layout.buildDirectory.file("reports/bom-runtime/bom.json"))
+    xmlOutput.unsetConvention()
 }
 
 val jar by tasks.existing(Jar::class)
@@ -39,7 +39,8 @@ val jarWithBom by tasks.registering(Jar::class) {
 }
 
 tasks.named<CycloneDxTask>("cyclonedxBom") {
-    setDestination(layout.buildDirectory.dir("reports/bom-all").get().asFile)
+    jsonOutput.set(layout.buildDirectory.file("reports/bom-all/bom.json"))
+    xmlOutput.set(layout.buildDirectory.file("reports/bom-all/bom.xml"))
 }
 
 val mainAddOnsFile = file("src/main/main-add-ons.yml")
