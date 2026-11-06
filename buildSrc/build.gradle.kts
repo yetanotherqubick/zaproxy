@@ -1,7 +1,7 @@
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.spotless)
-    alias(libs.plugins.zaproxy.common)
+    id(libs.plugins.zaproxy.common.get().pluginId)
 }
 
 repositories {
