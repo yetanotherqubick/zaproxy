@@ -1,5 +1,4 @@
 plugins {
-    id("io.github.ben-manes.versions") version "0.67.0"
     id("org.zaproxy.common.settings")
 }
 
@@ -10,3 +9,6 @@ dependencyResolutionManagement {
         }
     }
 }
+
+// The plugin is already on the settings classpath; avoid requesting it again through the plugins DSL.
+apply(plugin = "io.github.ben-manes.versions")
