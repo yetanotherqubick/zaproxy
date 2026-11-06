@@ -60,9 +60,8 @@ public abstract class PrepareNextDevIter extends DefaultTask {
         ProjectProperties properties = new ProjectProperties(getPropertiesFile().get().toPath());
         String currentVersion = properties.getProperty(versionProperty);
         Version newVersion =
-                Version.valueOf(currentVersion)
-                        .incrementMinorVersion()
-                        .setPreReleaseVersion("SNAPSHOT");
+        Version.parse(currentVersion)
+                .nextMinorVersion("SNAPSHOT");
         properties.setProperty(versionProperty, newVersion.toString());
         properties.setProperty(getVersionBcProperty().get(), currentVersion);
         properties.store();
