@@ -87,3 +87,4 @@ cyclonedx.id = "org.cyclonedx.bom"
 japicmp.id = "me.champeau.gradle.japicmp"
 sonarqube = { id = "org.sonarqube", version.ref = "sonarqube-plugin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless-plugin" }
+zaproxy-common = { id = "org.zaproxy.common", version.ref = "zaproxy-common" }

@@ -1,7 +1,7 @@
 plugins {
     `kotlin-dsl`
-    id("com.diffplug.spotless")
-    id("org.zaproxy.common")
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.zaproxy.common)
 }
 
 spotless {

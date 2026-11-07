@@ -7,7 +7,6 @@ pluginManagement {
 }
 
 plugins {
-    id("org.zaproxy.common.settings") version "0.5.0"
     id("io.github.ben-manes.versions") version "0.67.0"
 }
 
@@ -15,6 +14,7 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 
     repositories {
+        mavenCentral()
         gradlePluginPortal()
     }
 
