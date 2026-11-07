@@ -1,12 +1,3 @@
-buildscript {
-    repositories {
-        gradlePluginPortal()
-    }
-    dependencies {
-        classpath("com.diffplug.spotless:spotless-plugin-gradle:6.25.0")
-    }
-}
-
 plugins {
     `kotlin-dsl`
     id("com.diffplug.spotless")
