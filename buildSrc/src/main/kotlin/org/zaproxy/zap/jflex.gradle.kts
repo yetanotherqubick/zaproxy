@@ -1,12 +1,15 @@
 package org.zaproxy.zap
 
+import org.gradle.api.artifacts.VersionCatalogsExtension
+
 import org.zaproxy.zap.tasks.JFlexGenerator
 import org.zaproxy.zap.tasks.JFlexToRstaTokenMaker
 
+val versionCatalog = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
 val jflexClasspath by configurations.creating
 
 dependencies {
-    jflexClasspath("de.jflex:jflex:1.9.1")
+    jflexClasspath(versionCatalog.findLibrary("jflex").get())
 }
 
 val generateRstaTokenMakers by tasks.registering {

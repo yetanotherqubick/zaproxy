@@ -1,8 +1,12 @@
 package org.zaproxy.zap
 
+import org.gradle.api.artifacts.VersionCatalogsExtension
+
 plugins {
     com.diffplug.spotless
 }
+
+val versionCatalog = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
 
 spotless {
     format ("license", {
@@ -119,7 +123,7 @@ spotless {
 
     java {
         clearSteps()
-        googleJavaFormat("1.17.0").aosp()
+        googleJavaFormat(versionCatalog.findVersion("google-java-format").get().requiredVersion).aosp()
 
         // Exclude forked/3rd-party/generated files.
         targetExclude(listOf(
