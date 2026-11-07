@@ -4,11 +4,6 @@ plugins {
     id(libs.plugins.zaproxy.common.get().pluginId)
 }
 
-repositories {
-    mavenCentral()
-    gradlePluginPortal()
-}
-
 spotless {
     kotlinGradle {
         ktlint()

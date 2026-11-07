@@ -1,7 +1,19 @@
+import org.gradle.api.initialization.resolve.RepositoriesMode
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
 plugins {
     id("io.github.ben-manes.versions") version "0.67.0"
     id("org.zaproxy.common.settings") version "0.5.0"
     id("com.diffplug.spotless") version "6.25.0" apply false
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 }
 
 rootProject.name = "zaproxy"
