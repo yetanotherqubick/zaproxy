@@ -6,9 +6,16 @@ pluginManagement {
     }
 }
 
-plugins {
-    id("io.github.ben-manes.versions") version "0.67.0"
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath("io.github.ben-manes:gradle-versions-plugin:0.67.0")
+    }
 }
+
+apply(plugin = "io.github.ben-manes.versions")
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
