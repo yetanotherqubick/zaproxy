@@ -1,10 +1,8 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
     alias(libs.plugins.spotless)
     alias(libs.plugins.sonarqube)
-    alias(libs.plugins.errorprone)
 }
 
 tasks.named<DependencyUpdatesTask>("dependencyUpdates") {
@@ -12,34 +10,6 @@ tasks.named<DependencyUpdatesTask>("dependencyUpdates") {
 }
 
 apply(from = "$rootDir/gradle/ci.gradle.kts")
-
-subprojects {
-    apply(plugin = "com.diffplug.spotless")
-    apply(plugin = "org.zaproxy.common")
-    apply(plugin = "net.ltgt.errorprone")
-
-    spotless {
-        kotlinGradle {
-            ktlint()
-        }
-    }
-
-    project.plugins.withType(JavaPlugin::class) {
-        dependencies {
-            "errorprone"(libs.errorprone.core)
-        }
-    }
-
-    tasks.withType<JavaCompile>().configureEach {
-        options.errorprone {
-            disableAllChecks.set(true)
-            error(
-                "MissingOverride",
-                "WildcardImport",
-            )
-        }
-    }
-}
 
 sonarqube {
     properties {

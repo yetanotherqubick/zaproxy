@@ -1,7 +1,7 @@
 plugins {
     `kotlin-dsl`
     id("com.diffplug.spotless")
-    id(libs.plugins.zaproxy.common.get().pluginId)
+    id("org.zaproxy.common")
 }
 
 spotless {
@@ -33,7 +33,9 @@ dependencies {
         exclude(group = "org.jenkins-ci")
     }
     // Gradle Plugins
+    implementation(libs.errorprone.gradle.plugin)
     implementation(libs.spotless.plugin.gradle)
+    implementation(libs.zaproxy.common.gradle.plugin)
     implementation(libs.gradle.download.task)
     implementation(libs.launch4j)
     implementation(libs.gradle.publish)

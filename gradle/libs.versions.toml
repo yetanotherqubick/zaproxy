@@ -39,7 +39,9 @@ commons-lang3 = "org.apache.commons:commons-lang3:3.21.0"
 commons-logging = "commons-logging:commons-logging:1.4.0"
 commons-text = "org.apache.commons:commons-text:1.15.0"
 cyclonedx-gradle-plugin = { module = "org.cyclonedx:cyclonedx-gradle-plugin", version.ref = "cyclonedx-gradle-plugin" }
+zaproxy-common-gradle-plugin = { module = "org.zaproxy.common:org.zaproxy.common.gradle.plugin", version.ref = "zaproxy-common" }
 errorprone-core = { module = "com.google.errorprone:error_prone_core", version.ref = "errorprone" }
+errorprone-gradle-plugin = { module = "net.ltgt.errorprone:net.ltgt.errorprone.gradle.plugin", version.ref = "errorprone-plugin" }
 findbugsAnnotations = "com.google.code.findbugs:findbugs-annotations:3.0.1"
 flatlaf = { module = "com.formdev:flatlaf", version.ref = "flatlaf" }
 flatlaf-swingx = { module = "com.formdev:flatlaf-swingx", version.ref = "flatlaf" }
@@ -82,8 +84,6 @@ mockito = "org.mockito:mockito-junit-jupiter:5.24.0"
 [plugins]
 crowdin = { id = "org.zaproxy.crowdin", version.ref = "crowdin-plugin" }
 cyclonedx.id = "org.cyclonedx.bom"
-errorprone = { id = "net.ltgt.errorprone", version.ref = "errorprone-plugin" }
 japicmp.id = "me.champeau.gradle.japicmp"
 sonarqube = { id = "org.sonarqube", version.ref = "sonarqube-plugin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless-plugin" }
-zaproxy-common = { id = "org.zaproxy.common", version.ref = "zaproxy-common" }

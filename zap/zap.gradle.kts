@@ -11,10 +11,9 @@ import java.util.stream.Collectors
 plugins {
     `java-library`
     jacoco
-    alias(libs.plugins.spotless)
     alias(libs.plugins.japicmp)
     alias(libs.plugins.cyclonedx)
-    alias(libs.plugins.zaproxy.common)
+    id("org.zaproxy.java-conventions")
     alias(libs.plugins.crowdin)
     org.zaproxy.zap.distributions
     org.zaproxy.zap.installers
