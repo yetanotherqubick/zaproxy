@@ -8,7 +8,6 @@ pluginManagement {
 
 plugins {
     id("io.github.ben-manes.versions") version "0.67.0"
-    id("com.diffplug.spotless") version "6.25.0" apply false
 }
 
 dependencyResolutionManagement {
