@@ -52,8 +52,8 @@ import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jgrapht.DirectedGraph;
-import org.jgrapht.alg.CycleDetector;
+import org.jgrapht.Graph;
+import org.jgrapht.alg.cycle.CycleDetector;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.traverse.TopologicalOrderIterator;
@@ -1904,7 +1904,7 @@ public class AddOn {
         }
 
         private final AddOn addOn;
-        private final DirectedGraph<AddOn, DefaultEdge> dependencyTree;
+        private final Graph<AddOn, DefaultEdge> dependencyTree;
         private Set<AddOn> dependencies;
 
         private DependencyIssue depIssue;

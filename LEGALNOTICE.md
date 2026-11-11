@@ -31,7 +31,7 @@ and subject to their respective licenses.
 
 | Library                             | License                   |
 |-------------------------------------|---------------------------|
-| commons-beanutils-1.11.0.jar        | Apache 2.0                |
+| apfloat-1.14.0.jar                  | MIT                       |
 | commons-codec-1.23.0.jar            | Apache 2.0                |
 | commons-collections-3.2.2.jar       | Apache 2.0                |
 | commons-configuration-1.10.jar      | Apache 2.0                |
@@ -52,7 +52,8 @@ and subject to their respective licenses.
 | javahelp-2.0.05.jar                 | GPL + classpath exception |
 | jericho-html-3.4.jar                | EPL / LGPL dual license   |
 | jfreechart-1.5.6.jar                | LGPL                      |
-| jgrapht-core-0.9.2.jar              | LGPL 2.1                  |
+| jgrapht-core-1.5.3.jar              | LGPL 2.1                  |
+| jheaps-0.14.jar                     | Apache 2.0                |
 | json-lib-2.4-jdk15.jar              | MIT + "Good, Not Evil"    |
 | log4j-1.2-api-2.26.1.jar            | Apache 2.0                |
 | log4j-api-2.26.1.jar                | Apache 2.0                |

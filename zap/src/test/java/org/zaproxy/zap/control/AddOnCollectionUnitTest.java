@@ -20,6 +20,7 @@
 package org.zaproxy.zap.control;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -27,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.StringReader;
 import java.util.List;
+import java.util.Set;
 import org.apache.commons.configuration.ConfigurationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -230,6 +232,42 @@ class AddOnCollectionUnitTest {
         assertThat(addOnCollection.getAddOn("AddOn7"), is(notNullValue()));
         assertThat(addOnCollection.getAddOn("AddOn8"), is(notNullValue()));
         assertThat(addOnCollection.getAddOn("AddOn9"), is(notNullValue()));
+    }
+
+    @Test
+    void shouldReturnTransitiveDependencies() throws Exception {
+        // Given
+        ZapXmlConfiguration zapVersions = createConfiguration("ZapVersions-deps.xml");
+        AddOnCollection addOnCollection = new AddOnCollection(zapVersions, Platform.daily);
+        AddOn addOn = addOnCollection.getAddOn("AddOn1");
+        // When
+        AddOn.AddOnRunRequirements requirements =
+                addOn.calculateInstallRequirements(addOnCollection.getAddOns());
+        // Then
+        assertThat(requirements.isRunnable(), is(true));
+        assertThat(
+                requirements.getDependencies().stream().map(AddOn::getId).toList(),
+                containsInAnyOrder(
+                        "AddOn2", "AddOn3", "AddOn4", "AddOn5", "AddOn6", "AddOn7", "AddOn8"));
+    }
+
+    @Test
+    void shouldIdentifyAllAddOnsParticipatingInCircularDependency() throws Exception {
+        // Given
+        ZapXmlConfiguration zapVersions = createConfiguration("ZapVersions-cyclic-deps.xml");
+        AddOnCollection addOnCollection = new AddOnCollection(zapVersions, Platform.daily);
+        AddOn addOn = addOnCollection.getAddOn("AddOn4");
+        // When
+        AddOn.AddOnRunRequirements requirements =
+                addOn.calculateInstallRequirements(addOnCollection.getAddOns());
+        // Then
+        assertThat(
+                requirements.getDependencyIssue(),
+                is(AddOn.AddOnRunRequirements.DependencyIssue.CYCLIC));
+        Set<?> cyclicAddOns = (Set<?>) requirements.getDependencyIssueDetails().get(0);
+        assertThat(
+                cyclicAddOns.stream().map(AddOn.class::cast).map(AddOn::getId).toList(),
+                containsInAnyOrder("AddOn4", "AddOn5", "AddOn6", "AddOn7"));
     }
 
     @Test
