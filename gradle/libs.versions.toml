@@ -54,6 +54,7 @@ jflex = { module = "de.jflex:jflex", version.ref = "jflex" }
 github-api = { module = "org.kohsuke:github-api", version.ref = "github-api" }
 harlib = "edu.umass.cs.benchlab:harlib:1.1.3"
 hsqldb = "org.hsqldb:hsqldb:2.7.4"
+jackson-core-asl = "org.codehaus.jackson:jackson-core-asl:1.9.13"
 jackson-dataformat-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }
 javahelp = "javax.help:javahelp:2.0.05"
 javaSemver = "com.github.zafarkhaja:java-semver:0.10.2"

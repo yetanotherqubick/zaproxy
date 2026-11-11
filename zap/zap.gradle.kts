@@ -90,8 +90,8 @@ tasks.withType<JavaCompile>().configureEach {
 dependencies {
     api(libs.rsyntaxtextarea)
     implementation(libs.javaSemver)
-    implementation(libs.commons.beanutils)
-    implementation(libs.commons.codec)
+    runtimeOnly(libs.commons.beanutils)
+    runtimeOnly(libs.commons.codec)
     // Retained at runtime for add-ons that still use the Commons Collections 3.x package.
     runtimeOnly(libs.commons.collections3)
     implementation(libs.commons.collections4)
@@ -103,14 +103,15 @@ dependencies {
     implementation(libs.commons.io)
     implementation(libs.commons.lang3)
     implementation(libs.commons.text)
-    implementation(libs.harlib)
+    api(libs.harlib)
+    implementation(libs.jackson.core.asl)
     api(libs.javahelp)
     api(platform(libs.log4j.bom))
     api(libs.log4j.api)
     api(libs.log4j.api12)
     implementation(libs.log4j.core)
-    implementation(libs.log4j.jul)
-    implementation(libs.jerichoHtml)
+    runtimeOnly(libs.log4j.jul)
+    api(libs.jerichoHtml)
     api(variantOf(libs.jsonlib) { classifier("jdk15") })
     implementation(libs.commons.csv)
     api(libs.hsqldb)
@@ -119,7 +120,7 @@ dependencies {
     api(libs.swingx)
 
     implementation(libs.flatlaf)
-    implementation(libs.flatlaf.swingx)
+    runtimeOnly(libs.flatlaf.swingx)
 
     implementation(libs.commons.logging)
     runtimeOnly(libs.xom) {
