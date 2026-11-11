@@ -7,6 +7,7 @@ import de.undercouch.gradle.tasks.download.Verify
 import org.apache.tools.ant.filters.ReplaceTokens
 import org.apache.tools.ant.taskdefs.condition.Os
 import org.cyclonedx.gradle.CycloneDxTask
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.zaproxy.zap.tasks.internal.Utils
 import org.zaproxy.zap.tasks.CreateDmg
 import org.zaproxy.zap.tasks.DownloadMainAddOns
@@ -42,6 +43,9 @@ tasks.named<CycloneDxTask>("cyclonedxBom") {
     jsonOutput.set(layout.buildDirectory.file("reports/bom-all/bom.json"))
     xmlOutput.set(layout.buildDirectory.file("reports/bom-all/bom.xml"))
 }
+
+val versionCatalog = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
+val macOsJreVersion = versionCatalog.findVersion("macos-jre").get().requiredVersion
 
 val mainAddOnsFile = file("src/main/main-add-ons.yml")
 
@@ -197,7 +201,6 @@ listOf(
     val appName = "$volumeName.app"
     val macOsJreDir = layout.buildDirectory.dir("macOsJre${it.suffix}").get().asFile
     val macOsJreUnpackDir = File(macOsJreDir, "unpacked")
-    val macOsJreVersion = "17.0.17+10"
     val macOsJreFile = File(macOsJreDir, "jdk$macOsJreVersion-jre.tar.gz")
 
     val downloadMacOsJre = tasks.register<Download>("downloadMacOsJre${it.suffix}") {

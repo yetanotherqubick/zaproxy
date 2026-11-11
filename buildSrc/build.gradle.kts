@@ -1,12 +1,7 @@
 plugins {
     `kotlin-dsl`
-    id("com.diffplug.spotless")
-    id("org.zaproxy.common")
-}
-
-repositories {
-    mavenCentral()
-    gradlePluginPortal()
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.zaproxy.common)
 }
 
 spotless {
@@ -38,7 +33,9 @@ dependencies {
         exclude(group = "org.jenkins-ci")
     }
     // Gradle Plugins
+    implementation(libs.errorprone.gradle.plugin)
     implementation(libs.spotless.plugin.gradle)
+    implementation(libs.zaproxy.common.gradle.plugin)
     implementation(libs.gradle.download.task)
     implementation(libs.launch4j)
     implementation(libs.gradle.publish)

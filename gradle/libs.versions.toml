@@ -1,5 +1,6 @@
 [versions]
 errorprone = "2.42.0"
+errorprone-plugin = "5.2.0"
 flatlaf = "3.8"
 log4j = "2.26.1"
 junit = "6.1.3"
@@ -8,10 +9,17 @@ jackson = "2.22.4"
 jgit = "7.8.1.202611041320-r"
 github-api = "1.330"
 bridge-method-annotation = "1.24"
+crowdin-plugin = "0.6.0"
+google-java-format = "1.17.0"
+install4j-distribution = "10.0.8"
+install4j-gradle-plugin = "10.0.8"
+jflex = "1.9.1"
+macos-jre = "17.0.17+10"
+sonarqube-plugin = "7.5.0.8588"
 spotless-plugin = "6.25.0"
+zaproxy-common = "0.5.0"
 gradle-download-task = "5.7.0"
 launch4j = "4.0.0"
-install4j = "10.0.8"
 japicmp-gradle-plugin = "0.4.6"
 cyclonedx-gradle-plugin = "2.2.0"
 
@@ -31,12 +39,15 @@ commons-lang3 = "org.apache.commons:commons-lang3:3.21.0"
 commons-logging = "commons-logging:commons-logging:1.4.0"
 commons-text = "org.apache.commons:commons-text:1.15.0"
 cyclonedx-gradle-plugin = { module = "org.cyclonedx:cyclonedx-gradle-plugin", version.ref = "cyclonedx-gradle-plugin" }
+zaproxy-common-gradle-plugin = { module = "org.zaproxy.common:org.zaproxy.common.gradle.plugin", version.ref = "zaproxy-common" }
 errorprone-core = { module = "com.google.errorprone:error_prone_core", version.ref = "errorprone" }
+errorprone-gradle-plugin = { module = "net.ltgt.errorprone:net.ltgt.errorprone.gradle.plugin", version.ref = "errorprone-plugin" }
 findbugsAnnotations = "com.google.code.findbugs:findbugs-annotations:3.0.1"
 flatlaf = { module = "com.formdev:flatlaf", version.ref = "flatlaf" }
 flatlaf-swingx = { module = "com.formdev:flatlaf-swingx", version.ref = "flatlaf" }
 gradle-download-task = { module = "de.undercouch:gradle-download-task", version.ref = "gradle-download-task" }
-gradle-publish = { module = "gradle.plugin.install4j.install4j.buildtools:gradle_publish", version.ref = "install4j" }
+gradle-publish = { module = "gradle.plugin.install4j.install4j.buildtools:gradle_publish", version.ref = "install4j-gradle-plugin" }
+jflex = { module = "de.jflex:jflex", version.ref = "jflex" }
 github-api = { module = "org.kohsuke:github-api", version.ref = "github-api" }
 harlib = "edu.umass.cs.benchlab:harlib:1.1.3"
 hsqldb = "org.hsqldb:hsqldb:2.7.4"
@@ -71,10 +82,9 @@ junit-platformLauncher = { module = "org.junit.platform:junit-platform-launcher"
 mockito = "org.mockito:mockito-junit-jupiter:5.24.0"
 
 [plugins]
-crowdin = "org.zaproxy.crowdin:0.6.0"
+crowdin = { id = "org.zaproxy.crowdin", version.ref = "crowdin-plugin" }
 cyclonedx.id = "org.cyclonedx.bom"
-errorprone = "net.ltgt.errorprone:5.2.0"
 japicmp.id = "me.champeau.gradle.japicmp"
-sonarqube = "org.sonarqube:7.5.0.8588"
-spotless.id = "com.diffplug.spotless"
-zaproxy-common.id = "org.zaproxy.common"
+sonarqube = { id = "org.sonarqube", version.ref = "sonarqube-plugin" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless-plugin" }
+zaproxy-common = { id = "org.zaproxy.common", version.ref = "zaproxy-common" }

@@ -5,6 +5,7 @@ import de.undercouch.gradle.tasks.download.Download
 import de.undercouch.gradle.tasks.download.Verify
 import edu.sc.seis.launch4j.tasks.Launch4jLibraryTask
 import org.apache.tools.ant.taskdefs.condition.Os
+import org.gradle.api.artifacts.VersionCatalogsExtension
 
 plugins {
     com.install4j.gradle
@@ -16,7 +17,8 @@ var install4jHomeDirValidated = false
 val install4jHomeDir: String? by project
 val install4jLicense: String? by project
 
-val install4jVersion = "10.0.8"
+val versionCatalog = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
+val install4jVersion = versionCatalog.findVersion("install4j-distribution").get().requiredVersion
 
 install4j {
     installDir = file("$install4jHomeDir")
