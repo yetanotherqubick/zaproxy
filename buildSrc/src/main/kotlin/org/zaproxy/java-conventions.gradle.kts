@@ -20,6 +20,7 @@ spotless {
 }
 
 plugins.withType(JavaPlugin::class.java) {
+    // Error Prone is a compiler tool, not an application dependency.
     dependencies.add("errorprone", versionCatalog.findLibrary("errorprone-core").get())
 }
 

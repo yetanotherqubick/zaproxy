@@ -88,64 +88,71 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 dependencies {
-    api(libs.rsyntaxtextarea)
-    implementation(libs.javaSemver)
-    runtimeOnly(libs.commons.beanutils)
-    runtimeOnly(libs.commons.codec)
-    // Retained at runtime for add-ons that still use the Commons Collections 3.x package.
-    runtimeOnly(libs.commons.collections3)
-    implementation(libs.commons.collections4)
+    // Public API dependencies.
     api(libs.commons.configuration)
     api(libs.commons.httpclient) {
         exclude(group = "commons-codec", module = "commons-codec")
         exclude(group = "commons-logging", module = "commons-logging")
     }
-    implementation(libs.commons.io)
-    implementation(libs.commons.lang3)
-    implementation(libs.commons.text)
     api(libs.harlib)
-    implementation(libs.jackson.core.asl)
+    api(libs.hsqldb)
     api(libs.javahelp)
+    api(libs.jerichoHtml)
+    api(variantOf(libs.jsonlib) { classifier("jdk15") })
     api(platform(libs.log4j.bom))
     api(libs.log4j.api)
     api(libs.log4j.api12)
-    implementation(libs.log4j.core)
-    runtimeOnly(libs.log4j.jul)
-    api(libs.jerichoHtml)
-    api(variantOf(libs.jsonlib) { classifier("jdk15") })
-    implementation(libs.commons.csv)
-    api(libs.hsqldb)
-    implementation(libs.jfreechart)
-    implementation(libs.jgraphtcore)
+    api(libs.rsyntaxtextarea)
     api(libs.swingx)
 
-    implementation(libs.flatlaf)
-    runtimeOnly(libs.flatlaf.swingx)
-
+    // Implementation dependencies.
+    implementation(libs.commons.collections4)
+    implementation(libs.commons.csv)
+    implementation(libs.commons.io)
+    implementation(libs.commons.lang3)
     implementation(libs.commons.logging)
+    implementation(libs.commons.text)
+    implementation(libs.flatlaf)
+    implementation(libs.jackson.core.asl)
+    implementation(libs.javaSemver)
+    implementation(libs.jfreechart)
+    implementation(libs.jgraphtcore)
+    implementation(libs.log4j.core)
+
+    // Runtime dependencies.
+    runtimeOnly(libs.commons.beanutils)
+    runtimeOnly(libs.commons.codec)
+    // Retained for add-ons that still use the Commons Collections 3.x package.
+    runtimeOnly(libs.commons.collections3)
+    runtimeOnly(libs.flatlaf.swingx)
+    // Loaded by java.util.logging by class name; no static reference exists in ZAP's code.
+    runtimeOnly(libs.log4j.jul)
     runtimeOnly(libs.xom) {
         setTransitive(false)
     }
 
-    // Include annotations used by Log4j2 Core library to avoid compiler warnings.
+    // Annotation types needed only at compile time.
     compileOnly(libs.bndAnnotation)
     compileOnly(libs.findbugsAnnotations)
     testCompileOnly(libs.bndAnnotation)
     testCompileOnly(libs.findbugsAnnotations)
 
-    testImplementation(libs.bytebuddy)
+    // Shared test dependencies.
     testImplementation(libs.assertj.core)
+    testImplementation(libs.bytebuddy)
     testImplementation(libs.hamcrest)
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter.api)
     testImplementation(libs.junit.jupiter.params)
-    testRuntimeOnly(libs.junit.jupiter.engine)
-    testRuntimeOnly(libs.junit.platformLauncher)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito)
 
+    // Test runtime dependencies.
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(libs.junit.platformLauncher)
     testRuntimeOnly(files(distDir))
 
+    // GUI-specific test dependencies; common test dependencies are inherited.
     testGuiImplementation(libs.assertj.swing)
 }
 

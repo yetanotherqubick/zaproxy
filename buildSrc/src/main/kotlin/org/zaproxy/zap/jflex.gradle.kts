@@ -6,6 +6,7 @@ import org.zaproxy.zap.tasks.JFlexGenerator
 import org.zaproxy.zap.tasks.JFlexToRstaTokenMaker
 
 val versionCatalog = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
+// Keep the generator dependency isolated from the application's compile and runtime classpaths.
 val jflexClasspath by configurations.creating
 
 dependencies {

@@ -1,34 +1,50 @@
 [versions]
+bridge-method-annotation = "1.24"
+commons-collections4 = "4.6.0"
+commons-configuration2 = "2.11.0"
+crowdin-plugin = "0.6.0"
+cyclonedx-gradle-plugin = "3.5.1"
 errorprone = "2.42.0"
 errorprone-plugin = "5.2.0"
 flatlaf = "3.8"
-log4j = "2.26.1"
-junit = "6.1.3"
-javaparser = "3.28.2"
-jackson = "2.22.4"
-jgit = "7.8.1.202611041320-r"
-jgrapht = "1.5.3"
 github-api = "1.330"
-bridge-method-annotation = "1.24"
-commons-configuration2 = "2.11.0"
-commons-collections4 = "4.6.0"
-crowdin-plugin = "0.6.0"
 google-java-format = "1.28.0"
+gradle-download-task = "5.7.0"
 install4j-distribution = "11.0.5"
 install4j-gradle-plugin = "11.0.5"
+jackson = "2.22.4"
+japicmp-gradle-plugin = "0.4.6"
+javaparser = "3.28.2"
 jflex = "1.9.1"
+jgit = "7.8.1.202611041320-r"
+jgrapht = "1.5.3"
+junit = "6.1.3"
+launch4j = "4.0.0"
+log4j = "2.26.1"
 macos-jre = "17.0.17+10"
 sonarqube-plugin = "7.5.0.8588"
 spotless-plugin = "8.11.0"
-gradle-download-task = "5.7.0"
-launch4j = "4.0.0"
-japicmp-gradle-plugin = "0.4.6"
-cyclonedx-gradle-plugin = "3.5.1"
 
 [libraries]
+# Annotation metadata and compile-time annotations.
 bndAnnotation = "biz.aQute.bnd:biz.aQute.bnd.annotation:7.4.0"
-bytebuddy = "net.bytebuddy:byte-buddy:1.18.17"
 bridge-method-annotation = { module = "com.infradna.tool:bridge-method-annotation", version.ref = "bridge-method-annotation" }
+findbugsAnnotations = "com.google.code.findbugs:findbugs-annotations:3.0.1"
+
+# Test libraries.
+assertj-core = "org.assertj:assertj-core:3.27.7"
+assertj-swing = "org.assertj:assertj-swing:3.17.1"
+bytebuddy = "net.bytebuddy:byte-buddy:1.18.17"
+hamcrest = "org.hamcrest:hamcrest:3.0"
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params" }
+junit-platformLauncher = { module = "org.junit.platform:junit-platform-launcher" }
+mockito = "org.mockito:mockito-junit-jupiter:5.24.0"
+mockito-core = "org.mockito:mockito-core:5.24.0"
+
+# Apache Commons libraries.
 commons-beanutils = "commons-beanutils:commons-beanutils:1.11.0"
 commons-codec = "commons-codec:commons-codec:1.23.0"
 # Retained for add-ons that still use the Commons Collections 3.x package.
@@ -42,50 +58,44 @@ commons-io = "commons-io:commons-io:2.22.0"
 commons-lang3 = "org.apache.commons:commons-lang3:3.21.0"
 commons-logging = "commons-logging:commons-logging:1.4.0"
 commons-text = "org.apache.commons:commons-text:1.15.0"
+
+# Build logic, Gradle plugins, and build-time tools.
 cyclonedx-gradle-plugin = { module = "org.cyclonedx:cyclonedx-gradle-plugin", version.ref = "cyclonedx-gradle-plugin" }
 errorprone-core = { module = "com.google.errorprone:error_prone_core", version.ref = "errorprone" }
 errorprone-gradle-plugin = { module = "net.ltgt.errorprone:net.ltgt.errorprone.gradle.plugin", version.ref = "errorprone-plugin" }
-findbugsAnnotations = "com.google.code.findbugs:findbugs-annotations:3.0.1"
-flatlaf = { module = "com.formdev:flatlaf", version.ref = "flatlaf" }
-flatlaf-swingx = { module = "com.formdev:flatlaf-swingx", version.ref = "flatlaf" }
+github-api = { module = "org.kohsuke:github-api", version.ref = "github-api" }
 gradle-download-task = { module = "de.undercouch:gradle-download-task", version.ref = "gradle-download-task" }
 install4j-gradle = { module = "com.install4j:install4j-gradle", version.ref = "install4j-gradle-plugin" }
+jackson-dataformat-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }
+japicmp-gradle-plugin = { module = "me.champeau.gradle:japicmp-gradle-plugin", version.ref = "japicmp-gradle-plugin" }
+javaparser-core = { module = "com.github.javaparser:javaparser-core", version.ref = "javaparser" }
 jflex = { module = "de.jflex:jflex", version.ref = "jflex" }
-github-api = { module = "org.kohsuke:github-api", version.ref = "github-api" }
+jgit-core = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jgit" }
+launch4j = { module = "edu.sc.seis.launch4j:launch4j", version.ref = "launch4j" }
+spotless-plugin-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless-plugin" }
+
+# Application libraries.
+flatlaf = { module = "com.formdev:flatlaf", version.ref = "flatlaf" }
+flatlaf-swingx = { module = "com.formdev:flatlaf-swingx", version.ref = "flatlaf" }
 harlib = "edu.umass.cs.benchlab:harlib:1.1.3"
 hsqldb = "org.hsqldb:hsqldb:2.7.4"
 jackson-core-asl = "org.codehaus.jackson:jackson-core-asl:1.9.13"
-jackson-dataformat-yaml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jackson" }
 javahelp = "javax.help:javahelp:2.0.05"
 javaSemver = "com.github.zafarkhaja:java-semver:0.10.2"
-javaparser-core = { module = "com.github.javaparser:javaparser-core", version.ref = "javaparser" }
 jerichoHtml = "net.htmlparser.jericho:jericho-html:3.4"
 jfreechart = "org.jfree:jfreechart:1.5.6"
 jgraphtcore = { module = "org.jgrapht:jgrapht-core", version.ref = "jgrapht" }
-jgit-core = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jgit" }
-japicmp-gradle-plugin = { module = "me.champeau.gradle:japicmp-gradle-plugin", version.ref = "japicmp-gradle-plugin" }
 jsonlib = "net.sf.json-lib:json-lib:2.4"
-launch4j = { module = "edu.sc.seis.launch4j:launch4j", version.ref = "launch4j" }
+rsyntaxtextarea = "com.fifesoft:rsyntaxtextarea:4.0.1"
+swingx = "org.swinglabs.swingx:swingx-all:1.6.5-1"
+xom = "xom:xom:1.4.6"
+
+# Log4j modules managed together by the Log4j BOM.
 log4j-bom = { module = "org.apache.logging.log4j:log4j-bom", version.ref = "log4j" }
 log4j-api = { module = "org.apache.logging.log4j:log4j-api" }
 log4j-api12 = { module = "org.apache.logging.log4j:log4j-1.2-api" }
 log4j-core = { module = "org.apache.logging.log4j:log4j-core" }
 log4j-jul = { module = "org.apache.logging.log4j:log4j-jul" }
-rsyntaxtextarea = "com.fifesoft:rsyntaxtextarea:4.0.1"
-spotless-plugin-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless-plugin" }
-swingx = "org.swinglabs.swingx:swingx-all:1.6.5-1"
-xom = "xom:xom:1.4.6"
-
-assertj-core = "org.assertj:assertj-core:3.27.7"
-assertj-swing = "org.assertj:assertj-swing:3.17.1"
-hamcrest = "org.hamcrest:hamcrest:3.0"
-junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
-junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
-junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params" }
-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
-junit-platformLauncher = { module = "org.junit.platform:junit-platform-launcher" }
-mockito-core = "org.mockito:mockito-core:5.24.0"
-mockito = "org.mockito:mockito-junit-jupiter:5.24.0"
 
 [plugins]
 crowdin = { id = "org.zaproxy.crowdin", version.ref = "crowdin-plugin" }

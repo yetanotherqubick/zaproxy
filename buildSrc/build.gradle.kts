@@ -27,25 +27,28 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 dependencies {
-    implementation(libs.javaparser.core)
-    implementation(libs.javaSemver)
+    // Libraries used directly by the build logic.
     implementation(libs.commons.configuration)
     implementation(libs.commons.configuration2)
     implementation(libs.commons.io)
-    implementation(libs.jackson.dataformat.yaml)
-    implementation(libs.jgit.core)
     implementation(libs.github.api)
-    // Include annotations used by the above library to avoid compiler warnings.
-    compileOnly(libs.findbugsAnnotations)
+    implementation(libs.jackson.dataformat.yaml)
+    implementation(libs.javaparser.core)
+    implementation(libs.javaSemver)
+    implementation(libs.jgit.core)
+
+    // Gradle plugins and build tools used by the convention plugins.
+    implementation(libs.cyclonedx.gradle.plugin)
+    implementation(libs.errorprone.gradle.plugin)
+    implementation(libs.gradle.download.task)
+    implementation(libs.install4j.gradle)
+    implementation(libs.japicmp.gradle.plugin)
+    implementation(libs.launch4j)
+    implementation(libs.spotless.plugin.gradle)
+
+    // Annotation types needed only at compile time.
     compileOnly(libs.bridge.method.annotation) {
         exclude(group = "org.jenkins-ci")
     }
-    // Gradle Plugins
-    implementation(libs.errorprone.gradle.plugin)
-    implementation(libs.spotless.plugin.gradle)
-    implementation(libs.gradle.download.task)
-    implementation(libs.launch4j)
-    implementation(libs.install4j.gradle)
-    implementation(libs.japicmp.gradle.plugin)
-    implementation(libs.cyclonedx.gradle.plugin)
+    compileOnly(libs.findbugsAnnotations)
 }
