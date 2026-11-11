@@ -10,7 +10,8 @@ import de.undercouch.gradle.tasks.download.Download
 import de.undercouch.gradle.tasks.download.Verify
 import org.apache.tools.ant.filters.ReplaceTokens
 import org.apache.tools.ant.taskdefs.condition.Os
-import org.cyclonedx.gradle.CycloneDxTask
+import org.cyclonedx.gradle.CyclonedxAggregateTask
+import org.cyclonedx.gradle.CyclonedxDirectTask
 import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.zaproxy.zap.tasks.internal.MainAddOnsData
 import org.zaproxy.zap.tasks.CreateDmg
@@ -34,7 +35,8 @@ val distributionJavaVersion =
         JavaVersion.VERSION_17.majorVersion
     }
 
-val cyclonedxRuntimeBom by tasks.registering(CycloneDxTask::class) {
+val cyclonedxRuntimeBom by tasks.registering(CyclonedxDirectTask::class) {
+    aggregateConfigurationName.set("cyclonedxBom")
     includeConfigs.set(listOf(JavaPlugin.RUNTIME_CLASSPATH_CONFIGURATION_NAME))
     jsonOutput.set(layout.buildDirectory.file("reports/bom-runtime/bom.json"))
     xmlOutput.unsetConvention()
@@ -50,7 +52,7 @@ val jarWithBom by tasks.registering(Jar::class) {
     from(cyclonedxRuntimeBom)
 }
 
-tasks.named<CycloneDxTask>("cyclonedxBom") {
+tasks.named<CyclonedxAggregateTask>("cyclonedxBom") {
     jsonOutput.set(layout.buildDirectory.file("reports/bom-all/bom.json"))
     xmlOutput.set(layout.buildDirectory.file("reports/bom-all/bom.xml"))
 }

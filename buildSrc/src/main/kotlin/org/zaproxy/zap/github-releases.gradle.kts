@@ -2,7 +2,7 @@ package org.zaproxy.zap
 
 import com.install4j.gradle.Install4jTask
 import java.util.regex.Pattern
-import org.cyclonedx.gradle.CycloneDxTask
+import org.cyclonedx.gradle.CyclonedxAggregateTask
 import org.zaproxy.zap.GitHubUser
 import org.zaproxy.zap.GitHubRepo
 import org.zaproxy.zap.tasks.CreateDmg
@@ -134,7 +134,7 @@ tasks.register<CreateMainRelease>("createMainRelease") {
                 contentType.set("application/x-ms-dos-executable")
             }
             register("bom") {
-                val cyclonedxBom by tasks.existing(CycloneDxTask::class)
+                val cyclonedxBom by tasks.existing(CyclonedxAggregateTask::class)
                 file.set(cyclonedxBom.flatMap { it.jsonOutput })
                 contentType.set("application/json")
             }

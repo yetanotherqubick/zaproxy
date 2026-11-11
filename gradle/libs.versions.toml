@@ -21,7 +21,7 @@ zaproxy-common = "0.5.0"
 gradle-download-task = "5.7.0"
 launch4j = "4.0.0"
 japicmp-gradle-plugin = "0.4.6"
-cyclonedx-gradle-plugin = "2.2.0"
+cyclonedx-gradle-plugin = "3.5.1"
 
 [libraries]
 bndAnnotation = "biz.aQute.bnd:biz.aQute.bnd.annotation:7.4.0"
