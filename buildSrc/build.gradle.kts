@@ -29,14 +29,11 @@ tasks.withType<JavaCompile>().configureEach {
 dependencies {
     implementation(libs.javaparser.core)
     implementation(libs.javaSemver)
-    implementation(libs.commons.codec)
     implementation(libs.commons.configuration)
     implementation(libs.commons.configuration2)
-    implementation(libs.commons.collections)
     implementation(libs.commons.io)
     implementation(libs.jackson.dataformat.yaml)
     implementation(libs.jgit.core)
-    implementation(libs.jgit.archive)
     implementation(libs.github.api)
     // Include annotations used by the above library to avoid compiler warnings.
     compileOnly(libs.findbugsAnnotations)

@@ -57,7 +57,6 @@ javaparser-core = { module = "com.github.javaparser:javaparser-core", version.re
 jerichoHtml = "net.htmlparser.jericho:jericho-html:3.4"
 jfreechart = "org.jfree:jfreechart:1.5.6"
 jgraphtcore = "org.jgrapht:jgrapht-core:0.9.2"
-jgit-archive = { module = "org.eclipse.jgit:org.eclipse.jgit.archive", version.ref = "jgit" }
 jgit-core = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jgit" }
 japicmp-gradle-plugin = { module = "me.champeau.gradle:japicmp-gradle-plugin", version.ref = "japicmp-gradle-plugin" }
 jsonlib = "net.sf.json-lib:json-lib:2.4"
