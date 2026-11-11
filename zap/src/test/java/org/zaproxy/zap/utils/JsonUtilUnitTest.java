@@ -161,7 +161,8 @@ class JsonUtilUnitTest {
     @Test
     void shouldReturnKeyStrForJsonArray() {
         // Given
-        String json = """
+        String json =
+                """
                 ["aaa", "bbb", "ccc"]
                 """;
 

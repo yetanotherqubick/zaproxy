@@ -1,18 +1,28 @@
+import com.diffplug.spotless.LineEnding
+
 plugins {
     `kotlin-dsl`
     alias(libs.plugins.spotless)
-    alias(libs.plugins.zaproxy.common)
 }
 
 spotless {
+    lineEndings = LineEnding.UNIX
+
     kotlinGradle {
         ktlint()
+    }
+
+    java {
+        licenseHeaderFile(file("../gradle/spotless/license.java"))
+        googleJavaFormat(libs.versions.google.java.format.get()).aosp()
     }
 }
 
 tasks.withType<JavaCompile>().configureEach {
+    options.encoding = "UTF-8"
+    options.compilerArgs = listOf("-Xlint:all", "-Werror", "-parameters")
     if (JavaVersion.current().getMajorVersion() >= "21") {
-       options.compilerArgs = options.compilerArgs + "-Xlint:-this-escape"
+        options.compilerArgs = options.compilerArgs + "-Xlint:-this-escape"
     }
 }
 
@@ -21,6 +31,7 @@ dependencies {
     implementation(libs.javaSemver)
     implementation(libs.commons.codec)
     implementation(libs.commons.configuration)
+    implementation(libs.commons.configuration2)
     implementation(libs.commons.collections)
     implementation(libs.commons.io)
     implementation(libs.jackson.dataformat.yaml)
@@ -35,7 +46,6 @@ dependencies {
     // Gradle Plugins
     implementation(libs.errorprone.gradle.plugin)
     implementation(libs.spotless.plugin.gradle)
-    implementation(libs.zaproxy.common.gradle.plugin)
     implementation(libs.gradle.download.task)
     implementation(libs.launch4j)
     implementation(libs.install4j.gradle)

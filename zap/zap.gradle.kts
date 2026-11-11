@@ -65,10 +65,8 @@ tasks.named<JacocoReport>("jacocoTestReport") {
 
 spotless {
     java {
-        bumpThisNumberIfACustomStepChanges(2)
-        custom(
-            "validateImports",
-            ValidateImports(
+        addStep(
+            ValidateImports.create(
                 mapOf(
                     "import org.apache.commons.lang." to
                         "Import/use classes from Commons Lang 3, instead of Lang 2.",
@@ -245,7 +243,10 @@ val langPack by tasks.registering(Zip::class) {
     description = "Assembles the language pack for the Core Language Files add-on."
 
     archiveFileName.set(
-        layout.buildDirectory.file("langpack/ZAP_${project.version}_language_pack.$versionLangFile.zaplang").get().asFile.absolutePath,
+        layout.buildDirectory
+            .file("langpack/ZAP_${project.version}_language_pack.$versionLangFile.zaplang")
+            .get()
+            .asFile.absolutePath,
     )
     isPreserveFileTimestamps = false
     isReproducibleFileOrder = true
@@ -327,9 +328,11 @@ fun zapJar(version: String): File {
         // https://discuss.gradle.org/t/is-the-default-configuration-leaking-into-independent-configurations/2088/6
         group = "virtual_group_for_japicmp"
         val dependency = dependencies.create("$oldGroup:$name:$version")
-        return configurations.detachedConfiguration(dependency).apply {
-            isTransitive = false
-        }.singleFile
+        return configurations
+            .detachedConfiguration(dependency)
+            .apply {
+                isTransitive = false
+            }.singleFile
     } finally {
         group = oldGroup
     }
@@ -338,10 +341,11 @@ fun zapJar(version: String): File {
 val runtimeLibraryArtifacts =
     runtimeClasspath.flatMap { configuration ->
         configuration.incoming.artifacts.resolvedArtifacts.map { artifacts ->
-            artifacts.map { artifact ->
-                val id = artifact.id.componentIdentifier as ModuleComponentIdentifier
-                "${id.group}:${id.module}\t${artifact.file.name}"
-            }.sorted()
+            artifacts
+                .map { artifact ->
+                    val id = artifact.id.componentIdentifier as ModuleComponentIdentifier
+                    "${id.group}:${id.module}\t${artifact.file.name}"
+                }.sorted()
         }
     }
 

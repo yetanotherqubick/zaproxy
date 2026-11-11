@@ -9,15 +9,15 @@ jackson = "2.22.4"
 jgit = "7.8.1.202611041320-r"
 github-api = "1.330"
 bridge-method-annotation = "1.24"
+commons-configuration2 = "2.11.0"
 crowdin-plugin = "0.6.0"
-google-java-format = "1.17.0"
+google-java-format = "1.28.0"
 install4j-distribution = "11.0.5"
 install4j-gradle-plugin = "11.0.5"
 jflex = "1.9.1"
 macos-jre = "17.0.17+10"
 sonarqube-plugin = "7.5.0.8588"
-spotless-plugin = "6.25.0"
-zaproxy-common = "0.5.0"
+spotless-plugin = "8.11.0"
 gradle-download-task = "5.7.0"
 launch4j = "4.0.0"
 japicmp-gradle-plugin = "0.4.6"
@@ -31,6 +31,7 @@ commons-beanutils = "commons-beanutils:commons-beanutils:1.11.0"
 commons-codec = "commons-codec:commons-codec:1.23.0"
 commons-collections = "commons-collections:commons-collections:3.2.2"
 commons-configuration = "commons-configuration:commons-configuration:1.10"
+commons-configuration2 = { module = "org.apache.commons:commons-configuration2", version.ref = "commons-configuration2" }
 commons-csv = "org.apache.commons:commons-csv:1.14.1"
 commons-httpclient = "commons-httpclient:commons-httpclient:3.1"
 commons-io = "commons-io:commons-io:2.22.0"
@@ -38,7 +39,6 @@ commons-lang3 = "org.apache.commons:commons-lang3:3.21.0"
 commons-logging = "commons-logging:commons-logging:1.4.0"
 commons-text = "org.apache.commons:commons-text:1.15.0"
 cyclonedx-gradle-plugin = { module = "org.cyclonedx:cyclonedx-gradle-plugin", version.ref = "cyclonedx-gradle-plugin" }
-zaproxy-common-gradle-plugin = { module = "org.zaproxy.common:org.zaproxy.common.gradle.plugin", version.ref = "zaproxy-common" }
 errorprone-core = { module = "com.google.errorprone:error_prone_core", version.ref = "errorprone" }
 errorprone-gradle-plugin = { module = "net.ltgt.errorprone:net.ltgt.errorprone.gradle.plugin", version.ref = "errorprone-plugin" }
 findbugsAnnotations = "com.google.code.findbugs:findbugs-annotations:3.0.1"
@@ -87,4 +87,3 @@ cyclonedx.id = "org.cyclonedx.bom"
 japicmp.id = "me.champeau.gradle.japicmp"
 sonarqube = { id = "org.sonarqube", version.ref = "sonarqube-plugin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless-plugin" }
-zaproxy-common = { id = "org.zaproxy.common", version.ref = "zaproxy-common" }

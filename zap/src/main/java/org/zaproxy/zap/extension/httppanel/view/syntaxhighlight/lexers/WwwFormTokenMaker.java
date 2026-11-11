@@ -630,7 +630,7 @@ public class WwwFormTokenMaker extends AbstractJFlexTokenMaker {
                             addNullToken();
                             return firstToken;
                         }
-                        // fall though
+                    // fall though
                     case 15:
                         break;
                     case VALUE:
@@ -639,7 +639,7 @@ public class WwwFormTokenMaker extends AbstractJFlexTokenMaker {
                             addNullToken();
                             return firstToken;
                         }
-                        // fall though
+                    // fall though
                     case 16:
                         break;
                     default:
@@ -651,7 +651,7 @@ public class WwwFormTokenMaker extends AbstractJFlexTokenMaker {
                         {
                             startInvalidToken();
                         }
-                        // fall through
+                    // fall through
                     case 7:
                         break;
                     case 2:
@@ -659,7 +659,7 @@ public class WwwFormTokenMaker extends AbstractJFlexTokenMaker {
                             handleInvalidToken();
                             addToken(Token.RESERVED_WORD);
                         }
-                        // fall through
+                    // fall through
                     case 8:
                         break;
                     case 3:
@@ -668,7 +668,7 @@ public class WwwFormTokenMaker extends AbstractJFlexTokenMaker {
                             addToken(Token.SEPARATOR);
                             yybegin(VALUE);
                         }
-                        // fall through
+                    // fall through
                     case 9:
                         break;
                     case 4:
@@ -677,7 +677,7 @@ public class WwwFormTokenMaker extends AbstractJFlexTokenMaker {
                             addToken(Token.VARIABLE);
                             yybegin(YYINITIAL);
                         }
-                        // fall through
+                    // fall through
                     case 10:
                         break;
                     case 5:
@@ -685,7 +685,7 @@ public class WwwFormTokenMaker extends AbstractJFlexTokenMaker {
                             handleInvalidToken();
                             addToken(Token.DATA_TYPE);
                         }
-                        // fall through
+                    // fall through
                     case 11:
                         break;
                     case 6:
@@ -693,7 +693,7 @@ public class WwwFormTokenMaker extends AbstractJFlexTokenMaker {
                             handleInvalidToken();
                             addToken(Token.COMMENT_DOCUMENTATION);
                         }
-                        // fall through
+                    // fall through
                     case 12:
                         break;
                     default:

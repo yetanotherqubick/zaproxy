@@ -14,8 +14,6 @@ spotless {
 
         target(project.fileTree(project.projectDir) {
             include(listOf(
-                "src/main/java/ch/csnc/extension/httpclient/PKCS11Configuration.java",
-                "src/main/java/ch/csnc/extension/util/OptionsParamExperimentalSliSupport.java",
                 "src/main/java/org/parosproxy/paros/db/TableSessionUrl.java",
                 "src/main/java/org/parosproxy/paros/db/DatabaseUnsupportedException.java",
                 "src/main/java/org/parosproxy/paros/db/TableSession.java",
@@ -68,7 +66,6 @@ spotless {
                 "src/main/java/org/parosproxy/paros/model/HistoryReferenceEventPublisher.java",
                 "src/main/java/org/parosproxy/paros/model/SiteMapEventPublisher.java",
                 "src/main/java/org/parosproxy/paros/model/SiteNodeStringComparator.java",
-                "src/main/java/org/parosproxy/paros/network/ProxyExcludedDomainMatcher.java",
                 "src/main/java/org/parosproxy/paros/network/HtmlParameter.java",
                 "src/main/java/org/parosproxy/paros/network/HttpHeaderField.java",
                 "src/main/java/org/parosproxy/paros/network/DecoratedSocketsSslSocketFactory.java",
@@ -85,7 +82,6 @@ spotless {
                 "src/main/java/org/parosproxy/paros/extension/history/HistoryTableModel.java",
                 "src/main/java/org/parosproxy/paros/extension/history/ProxyListenerLogEventPublisher.java",
                 "src/main/java/org/parosproxy/paros/extension/history/HistoryTable.java",
-                "src/main/java/org/parosproxy/paros/extension/history/PopupMenuResendSites.java",
                 "src/main/java/org/parosproxy/paros/security/CertData.java",
                 "src/main/java/org/zaproxy/**/*.java",
                 "src/test/java/**/*.java"
@@ -114,15 +110,12 @@ spotless {
                 "src/main/java/org/zaproxy/zap/extension/stats/StatsdClient.java",
                 "src/main/java/org/zaproxy/zap/network/ZapNTLMEngineImpl.java",
                 "src/main/java/org/zaproxy/zap/network/ZapNTLMScheme.java",
-                "src/main/java/org/zaproxy/zap/spider/URLCanonicalizer.java",
-                "src/main/java/org/zaproxy/zap/spider/URLResolver.java",
                 "src/main/java/org/zaproxy/zap/utils/SortedComboBoxModel.java"
             ))
         })
     })
 
     java {
-        clearSteps()
         googleJavaFormat(versionCatalog.findVersion("google-java-format").get().requiredVersion).aosp()
 
         // Exclude forked/3rd-party/generated files.

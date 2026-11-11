@@ -20,25 +20,49 @@
 package org.zaproxy.gradle.spotless;
 
 import com.diffplug.spotless.FormatterFunc;
+import com.diffplug.spotless.FormatterStep;
+import java.io.Serializable;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ValidateImports implements FormatterFunc {
+/** A Spotless formatter step that rejects disallowed imports. */
+public final class ValidateImports {
 
-    private final Map<String, String> invalidImports;
+    private static final String NAME = "validateImports";
 
-    public ValidateImports(Map<String, String> invalidImports) {
-        this.invalidImports = Objects.requireNonNull(invalidImports);
+    private ValidateImports() {}
+
+    /**
+     * Creates a new {@link FormatterStep}.
+     *
+     * @param invalidImports imports that are not allowed, with their corresponding error messages
+     * @return a {@link FormatterStep}
+     */
+    public static FormatterStep create(Map<String, String> invalidImports) {
+        return FormatterStep.create(NAME, new State(invalidImports), State::toFormatter);
     }
 
-    @Override
-    public String apply(String input) throws Exception {
-        for (var entry : invalidImports.entrySet()) {
-            if (input.contains(entry.getKey())) {
-                throw new InvalidImportException(entry.getValue());
-            }
+    private static final class State implements Serializable {
+
+        private static final long serialVersionUID = 1L;
+
+        private final LinkedHashMap<String, String> invalidImports;
+
+        State(Map<String, String> invalidImports) {
+            this.invalidImports = new LinkedHashMap<>(Objects.requireNonNull(invalidImports));
         }
-        return input;
+
+        FormatterFunc toFormatter() {
+            return input -> {
+                for (var entry : invalidImports.entrySet()) {
+                    if (input.contains(entry.getKey())) {
+                        throw new InvalidImportException(entry.getValue());
+                    }
+                }
+                return input;
+            };
+        }
     }
 
     private static final class InvalidImportException extends AssertionError {

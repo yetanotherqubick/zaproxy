@@ -324,8 +324,8 @@ public class ActiveScanAPI extends ApiImplementor {
                         throw new ApiException(Type.USER_NOT_FOUND, PARAM_USER_ID);
                     }
 
-                    // Same behaviour but with addition of the user to scan
-                    // $FALL-THROUGH$
+                // Same behaviour but with addition of the user to scan
+                // $FALL-THROUGH$
                 case ACTION_SCAN:
                     String url = ApiUtils.getOptionalStringParam(params, PARAM_URL);
 

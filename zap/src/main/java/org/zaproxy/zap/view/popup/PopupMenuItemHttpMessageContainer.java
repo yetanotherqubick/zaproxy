@@ -272,7 +272,7 @@ public abstract class PopupMenuItemHttpMessageContainer
     private static Invoker getInvoker(HttpMessageContainer httpMessageContainer) {
         Invoker invoker;
         switch (httpMessageContainer.getName()) {
-                // TODO Allow to inject the HTTP fuzz component
+            // TODO Allow to inject the HTTP fuzz component
             case "History Table":
                 invoker = Invoker.HISTORY_PANEL;
                 break;
