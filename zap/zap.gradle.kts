@@ -90,14 +90,14 @@ tasks.withType<JavaCompile>().configureEach {
 
 dependencies {
     api(libs.rsyntaxtextarea)
-    api(libs.javaSemver)
+    implementation(libs.javaSemver)
     implementation(libs.commons.beanutils)
     implementation(libs.commons.codec)
     api(libs.commons.collections)
     api(libs.commons.configuration)
     api(libs.commons.httpclient)
     api(libs.commons.io)
-    api(libs.commons.lang)
+    implementation(libs.commons.lang)
     api(libs.commons.lang3)
     api(libs.commons.text)
     implementation(libs.harlib)
@@ -110,8 +110,8 @@ dependencies {
     api(variantOf(libs.jsonlib) { classifier("jdk15") })
     api(libs.commons.csv)
     api(libs.hsqldb)
-    api(libs.jfreechart)
-    api(libs.jgraphtcore)
+    implementation(libs.jfreechart)
+    implementation(libs.jgraphtcore)
     api(libs.swingx)
 
     implementation(libs.flatlaf)
