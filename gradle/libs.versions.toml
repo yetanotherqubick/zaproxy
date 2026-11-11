@@ -71,7 +71,6 @@ log4j-api = { module = "org.apache.logging.log4j:log4j-api" }
 log4j-api12 = { module = "org.apache.logging.log4j:log4j-1.2-api" }
 log4j-core = { module = "org.apache.logging.log4j:log4j-core" }
 log4j-jul = { module = "org.apache.logging.log4j:log4j-jul" }
-log4j-slf4j = { module = "org.apache.logging.log4j:log4j-slf4j-impl" }
 rsyntaxtextarea = "com.fifesoft:rsyntaxtextarea:4.0.1"
 spotless-plugin-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless-plugin" }
 swingx = "org.swinglabs.swingx:swingx-all:1.6.5-1"
@@ -79,10 +78,13 @@ xom = "xom:xom:1.4.6"
 
 assertj-core = "org.assertj:assertj-core:3.27.7"
 assertj-swing = "org.assertj:assertj-swing:3.17.1"
-hamcrest-core = "org.hamcrest:hamcrest-core:3.0"
+hamcrest = "org.hamcrest:hamcrest:3.0"
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
 junit-platformLauncher = { module = "org.junit.platform:junit-platform-launcher" }
+mockito-core = "org.mockito:mockito-core:5.24.0"
 mockito = "org.mockito:mockito-junit-jupiter:5.24.0"
 
 [plugins]

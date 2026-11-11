@@ -135,12 +135,14 @@ dependencies {
 
     testImplementation(libs.bytebuddy)
     testImplementation(libs.assertj.core)
-    testImplementation(libs.hamcrest.core)
+    testImplementation(libs.hamcrest)
     testImplementation(platform(libs.junit.bom))
-    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.params)
+    testRuntimeOnly(libs.junit.jupiter.engine)
     testRuntimeOnly(libs.junit.platformLauncher)
+    testImplementation(libs.mockito.core)
     testImplementation(libs.mockito)
-    testImplementation(libs.log4j.slf4j)
 
     testRuntimeOnly(files(distDir))
 
