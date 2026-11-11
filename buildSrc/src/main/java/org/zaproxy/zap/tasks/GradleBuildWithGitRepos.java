@@ -52,6 +52,7 @@ import org.gradle.api.tasks.Console;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Nested;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.process.ExecOperations;
@@ -66,6 +67,8 @@ public class GradleBuildWithGitRepos extends DefaultTask {
     private final Property<Boolean> updateRepositories;
     private final Property<Boolean> quiet;
     private final Property<Boolean> clean;
+    private final Property<Integer> maxWorkers;
+    private final DirectoryProperty outputDirectory;
     private NamedDomainObjectContainer<Task> tasks;
 
     public GradleBuildWithGitRepos() {
@@ -76,12 +79,24 @@ public class GradleBuildWithGitRepos extends DefaultTask {
         this.updateRepositories = objects.property(Boolean.class).value(true);
         this.quiet = objects.property(Boolean.class).value(true);
         this.clean = objects.property(Boolean.class).value(false);
+        this.maxWorkers = objects.property(Integer.class).convention(2);
+        this.outputDirectory = objects.directoryProperty();
         this.tasks = getProject().container(Task.class, name -> new Task(name, getProject()));
     }
 
     @Inject
     protected ExecOperations getExecOperations() {
         throw new UnsupportedOperationException();
+    }
+
+    @Inject
+    protected FileSystemOperations getFileSystemOperations() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Internal
+    public DirectoryProperty getOutputDirectory() {
+        return outputDirectory;
     }
 
     @InputFile
@@ -114,6 +129,11 @@ public class GradleBuildWithGitRepos extends DefaultTask {
         return clean;
     }
 
+    @Input
+    public Property<Integer> getMaxWorkers() {
+        return maxWorkers;
+    }
+
     @Nested
     public Iterable<Task> getTasks() {
         return new ArrayList<>(tasks);
@@ -129,6 +149,7 @@ public class GradleBuildWithGitRepos extends DefaultTask {
 
     @TaskAction
     public void buildWeeklyAddOns() throws GitAPIException, IOException {
+        prepareOutputDirectory();
         Path reposDir = repositoriesDirectory.get().getAsFile().toPath();
 
         List<RepoData> reposData = readRepoData();
@@ -185,6 +206,16 @@ public class GradleBuildWithGitRepos extends DefaultTask {
         }
     }
 
+    private void prepareOutputDirectory() throws IOException {
+        if (!outputDirectory.isPresent()) {
+            return;
+        }
+
+        Path directory = outputDirectory.get().getAsFile().toPath();
+        getFileSystemOperations().delete(spec -> spec.delete(directory));
+        Files.createDirectories(directory);
+    }
+
     private void runTasks(Path repoDir, List<String> projects) {
         List<String> execArgs = new ArrayList<>();
         for (String project : projects) {
@@ -201,6 +232,7 @@ public class GradleBuildWithGitRepos extends DefaultTask {
     private void runGradle(Path repoDir, List<String> args) {
         List<String> execArgs = new ArrayList<>();
         execArgs.add("-Dorg.gradle.jvmargs=-Xmx2g -XX:MaxMetaspaceSize=512m");
+        execArgs.add("--max-workers=" + maxWorkers.get());
         if (quiet.get()) {
             execArgs.add("-q");
         }

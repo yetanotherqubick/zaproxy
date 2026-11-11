@@ -160,10 +160,9 @@ val copyCoreAddOns by tasks.registering(Sync::class) {
     }
 
     from(bundledAddOns) {
-        include { details: FileTreeElement ->
-            details.path.endsWith(".zap") &&
-                details.file.name.substringBefore("-") in coreAddOnIds.get()
-        }
+        include(
+            *coreAddOnIds.get().map { "**/$it-*.zap" }.toTypedArray(),
+        )
     }
     into(layout.buildDirectory.dir("coreAddOns"))
 }
@@ -373,27 +372,16 @@ val buildWeeklyAddOns by tasks.registering(GradleBuildWithGitRepos::class) {
     description = "Builds the weekly add-ons from source for weekly distribution."
 
     repositoriesDirectory.set(temporaryDir)
+    outputDirectory.set(weeklyAddOnsDir)
     repositoriesDataFile.set(file("src/main/weekly-add-ons.json"))
     clean.set(true)
     quiet.set(System.getenv("ZAP_WEEKLY_QUIET") != "false")
 
     tasks {
         if (System.getenv("ZAP_WEEKLY_ADDONS_NO_TEST") != "true") {
-            register("test")
+            create("test")
         }
-        register("copyZapAddOn") {
-            args.set(listOf("--into=${weeklyAddOnsDir.get().asFile}"))
-        }
-    }
-
-    doFirst {
-        val outputDirectory = weeklyAddOnsDir.get().asFile.toPath()
-        if (Files.exists(outputDirectory)) {
-            Files.walk(outputDirectory).use { paths ->
-                paths.sorted(Comparator.reverseOrder<Path>()).forEach { Files.delete(it) }
-            }
-        }
-        Files.createDirectories(outputDirectory)
+        create("copyZapAddOn").args.set(listOf("--into=${weeklyAddOnsDir.get().asFile}"))
     }
 }
 
