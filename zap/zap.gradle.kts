@@ -95,8 +95,13 @@ dependencies {
     implementation(libs.commons.beanutils)
     implementation(libs.commons.codec)
     api(libs.commons.collections)
-    api(libs.commons.configuration)
-    api(libs.commons.httpclient)
+    api(libs.commons.configuration) {
+        exclude(group = "commons-logging", module = "commons-logging")
+    }
+    api(libs.commons.httpclient) {
+        exclude(group = "commons-codec", module = "commons-codec")
+        exclude(group = "commons-logging", module = "commons-logging")
+    }
     api(libs.commons.io)
     api(libs.commons.lang3)
     api(libs.commons.text)
@@ -117,7 +122,7 @@ dependencies {
     implementation(libs.flatlaf)
     implementation(libs.flatlaf.swingx)
 
-    runtimeOnly(libs.commons.logging)
+    implementation(libs.commons.logging)
     runtimeOnly(libs.xom) {
         setTransitive(false)
     }
