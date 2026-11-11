@@ -23,7 +23,7 @@ tasks.withType<JavaCompile>().configureEach {
 
 dependencies {
     implementation("com.github.javaparser:javaparser-core:3.28.2")
-    implementation("com.github.zafarkhaja:java-semver:0.9.0")
+    implementation("com.github.zafarkhaja:java-semver:0.10.2")
     implementation("commons-codec:commons-codec:1.23.0")
     implementation("commons-configuration:commons-configuration:1.10")
     implementation("commons-collections:commons-collections:3.2.2")
