@@ -98,7 +98,6 @@ dependencies {
     api(libs.commons.configuration)
     api(libs.commons.httpclient)
     api(libs.commons.io)
-    implementation(libs.commons.lang)
     api(libs.commons.lang3)
     api(libs.commons.text)
     implementation(libs.harlib)
