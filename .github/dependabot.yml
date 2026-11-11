@@ -11,8 +11,6 @@ updates:
         - "*"
   - package-ecosystem: "gradle"
     directory: "/"
-    exclude-paths:
-      - "buildSrc"
     schedule:
       interval: "weekly"
     groups:

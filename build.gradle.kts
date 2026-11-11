@@ -1,9 +1,14 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import net.ltgt.gradle.errorprone.errorprone
 
 plugins {
     alias(libs.plugins.spotless)
     alias(libs.plugins.sonarqube)
     alias(libs.plugins.errorprone)
+}
+
+tasks.named<DependencyUpdatesTask>("dependencyUpdates") {
+    checkConstraints = true
 }
 
 apply(from = "$rootDir/gradle/ci.gradle.kts")
