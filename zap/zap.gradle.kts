@@ -81,6 +81,7 @@ spotless {
 }
 
 tasks.withType<JavaCompile>().configureEach {
+    options.release.set(zapJavaVersion.majorVersion.toInt())
     options.compilerArgs = options.compilerArgs + "-parameters"
     val javaVersion = if (isZapRelease()) zapJavaVersion else JavaVersion.current()
     if (javaVersion >= JavaVersion.VERSION_21) {
