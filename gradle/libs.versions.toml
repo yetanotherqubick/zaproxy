@@ -62,11 +62,12 @@ jgit-core = { module = "org.eclipse.jgit:org.eclipse.jgit", version.ref = "jgit"
 japicmp-gradle-plugin = { module = "me.champeau.gradle:japicmp-gradle-plugin", version.ref = "japicmp-gradle-plugin" }
 jsonlib = "net.sf.json-lib:json-lib:2.4"
 launch4j = { module = "edu.sc.seis.launch4j:launch4j", version.ref = "launch4j" }
-log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
-log4j-api12 = { module = "org.apache.logging.log4j:log4j-1.2-api", version.ref = "log4j" }
-log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
-log4j-jul = { module = "org.apache.logging.log4j:log4j-jul", version.ref = "log4j" }
-log4j-slf4j = { module = "org.apache.logging.log4j:log4j-slf4j-impl", version.ref = "log4j" }
+log4j-bom = { module = "org.apache.logging.log4j:log4j-bom", version.ref = "log4j" }
+log4j-api = { module = "org.apache.logging.log4j:log4j-api" }
+log4j-api12 = { module = "org.apache.logging.log4j:log4j-1.2-api" }
+log4j-core = { module = "org.apache.logging.log4j:log4j-core" }
+log4j-jul = { module = "org.apache.logging.log4j:log4j-jul" }
+log4j-slf4j = { module = "org.apache.logging.log4j:log4j-slf4j-impl" }
 rsyntaxtextarea = "com.fifesoft:rsyntaxtextarea:4.0.1"
 spotless-plugin-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless-plugin" }
 swingx = "org.swinglabs.swingx:swingx-all:1.6.5-1"

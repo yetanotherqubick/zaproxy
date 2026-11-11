@@ -105,6 +105,7 @@ dependencies {
     api(libs.commons.text)
     implementation(libs.harlib)
     api(libs.javahelp)
+    api(platform(libs.log4j.bom))
     api(libs.log4j.api)
     api(libs.log4j.api12)
     implementation(libs.log4j.core)
