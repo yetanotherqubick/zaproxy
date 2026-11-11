@@ -1,9 +1,14 @@
 package org.zaproxy.zap
 
+import org.gradle.plugins.signing.SigningExtension
+
 plugins {
     `maven-publish`
-    signing
 }
+
+// The Signing plugin's signatures configuration only publishes generated signature artifacts.
+configurations.consumable("signatures")
+apply(plugin = "signing")
 
 val sourceSets = extensions.getByName("sourceSets") as SourceSetContainer
 
@@ -95,7 +100,7 @@ publishing {
     }
 }
 
-signing {
+extensions.configure<SigningExtension> {
     if (project.hasProperty("signing.keyId")) {
         sign(publishing.publications["zap"])
     }
