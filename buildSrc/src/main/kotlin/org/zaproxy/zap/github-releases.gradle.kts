@@ -106,7 +106,7 @@ tasks.register<CreateMainRelease>("createMainRelease") {
     if (!"${project.version}".endsWith("-SNAPSHOT")) {
         val installers by tasks.existing(Install4jTask::class)
 
-        val installersFileTree: Provider<FileTree> = installers.map { fileTree(it.destination!!) }
+        val installersFileTree: Provider<FileTree> = installers.map { fileTree(it.destination) }
 
         assets {
             register("core") {

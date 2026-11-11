@@ -38,7 +38,7 @@ dependencies {
     implementation(libs.zaproxy.common.gradle.plugin)
     implementation(libs.gradle.download.task)
     implementation(libs.launch4j)
-    implementation(libs.gradle.publish)
+    implementation(libs.install4j.gradle)
     implementation(libs.japicmp.gradle.plugin)
     implementation(libs.cyclonedx.gradle.plugin)
 }

@@ -11,8 +11,8 @@ github-api = "1.330"
 bridge-method-annotation = "1.24"
 crowdin-plugin = "0.6.0"
 google-java-format = "1.17.0"
-install4j-distribution = "10.0.8"
-install4j-gradle-plugin = "10.0.8"
+install4j-distribution = "11.0.5"
+install4j-gradle-plugin = "11.0.5"
 jflex = "1.9.1"
 macos-jre = "17.0.17+10"
 sonarqube-plugin = "7.5.0.8588"
@@ -45,7 +45,7 @@ findbugsAnnotations = "com.google.code.findbugs:findbugs-annotations:3.0.1"
 flatlaf = { module = "com.formdev:flatlaf", version.ref = "flatlaf" }
 flatlaf-swingx = { module = "com.formdev:flatlaf-swingx", version.ref = "flatlaf" }
 gradle-download-task = { module = "de.undercouch:gradle-download-task", version.ref = "gradle-download-task" }
-gradle-publish = { module = "gradle.plugin.install4j.install4j.buildtools:gradle_publish", version.ref = "install4j-gradle-plugin" }
+install4j-gradle = { module = "com.install4j:install4j-gradle", version.ref = "install4j-gradle-plugin" }
 jflex = { module = "de.jflex:jflex", version.ref = "jflex" }
 github-api = { module = "org.kohsuke:github-api", version.ref = "github-api" }
 harlib = "edu.umass.cs.benchlab:harlib:1.1.3"

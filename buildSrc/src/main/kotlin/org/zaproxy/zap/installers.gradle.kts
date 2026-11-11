@@ -14,15 +14,21 @@ plugins {
 }
 
 val install4jHomeDir: String? by project
+val configuredInstall4jHomeDir = install4jHomeDir
 val install4jLicense: String? by project
-val install4jHomeDirAvailable = install4jHomeDir != null || Os.isFamily(Os.FAMILY_UNIX)
 
 val versionCatalog = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
 val install4jVersion = versionCatalog.findVersion("install4j-distribution").get().requiredVersion
 
+val configuredInstall4jLicense = System.getenv("INSTALL4J_LICENSE") ?: install4jLicense
+
 install4j {
-    installDir = file("$install4jHomeDir")
-    license = System.getenv("INSTALL4J_LICENSE") ?: install4jLicense
+    if (configuredInstall4jHomeDir != null) {
+        installDir = file(configuredInstall4jHomeDir)
+    }
+    if (configuredInstall4jLicense != null) {
+        license = configuredInstall4jLicense
+    }
 }
 
 launch4j {
@@ -116,17 +122,11 @@ val installers by tasks.registering(Install4jTask::class) {
             prepareWin64InstallerData)
 
     projectFile = file("src/main/installer/zap.install4j")
-    variables = mapOf("version" to version)
+    variables = mapOf("version" to version.toString())
     destination = layout.buildDirectory.dir("install4j").get().asFile
-
-    doFirst {
-        require(install4jHomeDirAvailable) {
-            "The install4jHomeDir property must be set to build the installers."
-        }
-    }
 }
 
-if (install4jHomeDir == null && Os.isFamily(Os.FAMILY_UNIX)) {
+if (configuredInstall4jHomeDir == null && Os.isFamily(Os.FAMILY_UNIX)) {
     val install4jVersionUnderscores = install4jVersion.replace('.', '_')
     val install4jBinDir = layout.buildDirectory.dir("install4jBin").get().asFile
     val install4jBinUnpackDir = File(install4jBinDir, "unpacked")
@@ -145,7 +145,7 @@ if (install4jHomeDir == null && Os.isFamily(Os.FAMILY_UNIX)) {
         dependsOn(downloadInstall4jBin)
         src(install4jBinFile)
         algorithm("SHA-256")
-        checksum("3d64c4a28d2b11ea26ae3cb8f1b0288de76811c1e0f37e06a2a4d8498b8130e7")
+        checksum("416518d3d016a21f5466bcc43a9932d6e84e2d697e398e608bd728459a502b3d")
     }
 
     val unpackInstall4jBin by tasks.registering(Sync::class) {
