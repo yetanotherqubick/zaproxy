@@ -19,12 +19,15 @@
  */
 package org.zaproxy.zap.tasks;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
 import org.gradle.api.DefaultTask;
+import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.options.Option;
@@ -35,6 +38,14 @@ import org.zaproxy.zap.tasks.internal.Utils;
 
 public abstract class UpdateMainAddOns extends DefaultTask {
 
+    public UpdateMainAddOns() {
+        getRootDirectory()
+                .convention(getProject().getRootProject().getLayout().getProjectDirectory());
+    }
+
+    @Internal
+    public abstract DirectoryProperty getRootDirectory();
+
     @InputFile
     public abstract RegularFileProperty getZapVersions();
 
@@ -42,7 +53,12 @@ public abstract class UpdateMainAddOns extends DefaultTask {
             option = "zap-versions",
             description = "The file system path to a ZapVersions.xml file.")
     public void setZapVersionsPath(String path) {
-        getZapVersions().set(getProject().getParent().file(path));
+        File file = new File(path);
+        getZapVersions()
+                .fileValue(
+                        file.isAbsolute()
+                                ? file
+                                : new File(getRootDirectory().get().getAsFile(), path));
     }
 
     @InputFile

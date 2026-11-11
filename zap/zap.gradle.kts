@@ -1,12 +1,12 @@
 import japicmp.model.JApiChangeStatus
 import me.champeau.gradle.japicmp.JapicmpTask
+import org.gradle.api.artifacts.component.ModuleComponentIdentifier
 import org.zaproxy.gradle.spotless.ValidateImports
 import org.zaproxy.zap.japicmp.AcceptMethodAbstractNowDefaultRule
 import org.zaproxy.zap.tasks.GradleBuildWithGitRepos
 import org.zaproxy.zap.tasks.UpdateLegalNotice
 import org.zaproxy.zap.tasks.internal.JapicmpExcludedData
 import java.time.LocalDate
-import java.util.stream.Collectors
 
 plugins {
     `java-library`
@@ -95,9 +95,7 @@ dependencies {
     implementation(libs.commons.beanutils)
     implementation(libs.commons.codec)
     api(libs.commons.collections)
-    api(libs.commons.configuration) {
-        exclude(group = "commons-logging", module = "commons-logging")
-    }
+    api(libs.commons.configuration)
     api(libs.commons.httpclient) {
         exclude(group = "commons-codec", module = "commons-codec")
         exclude(group = "commons-logging", module = "commons-logging")
@@ -156,6 +154,8 @@ tasks.register<JavaExec>("run") {
     workingDir = distDir
 }
 
+val runtimeClasspath = configurations.named("runtimeClasspath")
+
 listOf("jar", "jarDaily", "jarWithBom").forEach {
     tasks.named<Jar>(it) {
         isPreserveFileTimestamps = false
@@ -170,15 +170,12 @@ listOf("jar", "jarDaily", "jarWithBom").forEach {
         val attrs =
             mapOf(
                 "Main-Class" to "org.zaproxy.zap.ZAP",
-                "Implementation-Version" to ToString({ archiveVersion.get() }),
+                "Implementation-Version" to archiveVersion,
                 "Create-Date" to creationDate,
                 "Class-Path" to
-                    ToString({
-                        configurations.runtimeClasspath.get().files.stream().map {
-                                file ->
-                            "lib/${file.name}"
-                        }.sorted().collect(Collectors.joining(" "))
-                    }),
+                    runtimeClasspath.flatMap { it.elements }.map { files ->
+                        files.map { "lib/${it.asFile.name}" }.sorted().joinToString(" ")
+                    },
             )
 
         manifest {
@@ -205,14 +202,15 @@ val japicmp by tasks.registering(JapicmpTask::class) {
     newClasspath.from(tasks.named<Jar>(JavaPlugin.JAR_TASK_NAME))
     ignoreMissingClasses.set(true)
 
-    var excludedDataFile = "$projectDir/gradle/japicmp.yaml"
+    val excludedDataFile = layout.projectDirectory.file("gradle/japicmp.yaml")
     inputs.file(excludedDataFile)
 
-    var excludedData = JapicmpExcludedData.from(excludedDataFile)
-    packageExcludes.set(excludedData.packageExcludes)
-    fieldExcludes.set(excludedData.fieldExcludes)
-    classExcludes.set(excludedData.classExcludes)
-    methodExcludes.set(excludedData.methodExcludes)
+    val excludedData =
+        providers.fileContents(excludedDataFile).asText.map(JapicmpExcludedData::fromYaml)
+    packageExcludes.set(excludedData.map { it.packageExcludes })
+    fieldExcludes.set(excludedData.map { it.fieldExcludes })
+    classExcludes.set(excludedData.map { it.classExcludes })
+    methodExcludes.set(excludedData.map { it.methodExcludes })
 
     richReport {
         destinationDir.set(layout.buildDirectory.dir("reports/japicmp"))
@@ -322,28 +320,36 @@ launch4j {
     setJarTask(tasks.named<Jar>("jar").get())
 }
 
-class ToString(private val callable: Callable<String>) {
-    override fun toString() = callable.call()
-}
-
 fun zapJar(version: String): File {
     val oldGroup = group
     try {
         // https://discuss.gradle.org/t/is-the-default-configuration-leaking-into-independent-configurations/2088/6
         group = "virtual_group_for_japicmp"
-        val conf = configurations.detachedConfiguration(dependencies.create("$oldGroup:$name:$version"))
-        conf.isTransitive = false
-        return conf.singleFile
+        val dependency = dependencies.create("$oldGroup:$name:$version")
+        return configurations.detachedConfiguration(dependency).apply {
+            isTransitive = false
+        }.singleFile
     } finally {
         group = oldGroup
     }
 }
 
+val runtimeLibraryArtifacts =
+    runtimeClasspath.flatMap { configuration ->
+        configuration.incoming.artifacts.resolvedArtifacts.map { artifacts ->
+            artifacts.map { artifact ->
+                val id = artifact.id.componentIdentifier as ModuleComponentIdentifier
+                "${id.group}:${id.module}\t${artifact.file.name}"
+            }.sorted()
+        }
+    }
+
 tasks.register<UpdateLegalNotice>("updateLegalNotice") {
     group = "ZAP Misc"
     description = "Updates the third-party library table in LEGALNOTICE.md."
 
-    configuration.set(configurations.runtimeClasspath)
+    classpath.from(runtimeClasspath)
+    libraryArtifacts.set(runtimeLibraryArtifacts)
     licensesFile.set(file("gradle/thirdPartyLicenses.yaml"))
     legalNoticeFile.set(rootProject.file("LEGALNOTICE.md"))
 }

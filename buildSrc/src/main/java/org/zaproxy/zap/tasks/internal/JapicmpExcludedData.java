@@ -55,4 +55,9 @@ public class JapicmpExcludedData {
             return new ObjectMapper(new YAMLFactory()).readValue(reader, JapicmpExcludedData.class);
         }
     }
+
+    public static JapicmpExcludedData fromYaml(String yaml) throws IOException {
+        return new ObjectMapper(new YAMLFactory()).readValue(yaml, JapicmpExcludedData.class);
+    }
 }
+

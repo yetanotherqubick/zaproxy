@@ -25,18 +25,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.GradleException;
-import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.artifacts.ResolvedArtifact;
-import org.gradle.api.artifacts.component.ModuleComponentIdentifier;
+import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.file.RegularFileProperty;
-import org.gradle.api.provider.Property;
+import org.gradle.api.provider.ListProperty;
+import org.gradle.api.tasks.Classpath;
+import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
-import org.gradle.api.tasks.InputFiles;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.PathSensitive;
 import org.gradle.api.tasks.PathSensitivity;
@@ -53,10 +53,13 @@ public abstract class UpdateLegalNotice extends DefaultTask {
     private static final String LIBRARY_HEADER = "Library";
     private static final String LICENSE_HEADER = "License";
 
-    /** The runtime classpath configuration to inspect for third-party libraries. */
-    @InputFiles
-    @PathSensitive(PathSensitivity.NAME_ONLY)
-    public abstract Property<Configuration> getConfiguration();
+    /** The resolved runtime classpath used to identify third-party libraries. */
+    @Classpath
+    public abstract ConfigurableFileCollection getClasspath();
+
+    /** The Maven coordinates and artifact file names on the runtime classpath. */
+    @Input
+    public abstract ListProperty<String> getLibraryArtifacts();
 
     /**
      * The YAML file mapping Maven {@code groupId:artifactId} coordinates to their license strings.
@@ -73,7 +76,7 @@ public abstract class UpdateLegalNotice extends DefaultTask {
     public void update() throws IOException {
         Set<TableRow> rows =
                 createRows(
-                        getConfiguration().get().getResolvedConfiguration().getResolvedArtifacts(),
+                        getLibraryArtifacts().get(),
                         getLicensesFile().get().getAsFile().toPath());
 
         int libWidth = Math.max(LIBRARY_HEADER.length(), 35);
@@ -99,7 +102,7 @@ public abstract class UpdateLegalNotice extends DefaultTask {
     }
 
     @SuppressWarnings("unchecked")
-    private static Set<TableRow> createRows(Set<ResolvedArtifact> artifacts, Path licensesFile)
+    private static Set<TableRow> createRows(List<String> artifacts, Path licensesFile)
             throws IOException {
         Map<String, Object> yaml =
                 new ObjectMapper(new YAMLFactory()).readValue(licensesFile.toFile(), Map.class);
@@ -110,11 +113,13 @@ public abstract class UpdateLegalNotice extends DefaultTask {
         }
 
         Set<TableRow> rows = new TreeSet<>(Comparator.comparing(TableRow::fileName));
-        for (ResolvedArtifact artifact : artifacts) {
-            ModuleComponentIdentifier id =
-                    (ModuleComponentIdentifier) artifact.getId().getComponentIdentifier();
-            String coordinates = id.getGroup() + ":" + id.getModule();
-            String fileName = artifact.getFile().getName();
+        for (String artifact : artifacts) {
+            int separator = artifact.indexOf('\t');
+            if (separator < 0 || separator == artifact.length() - 1) {
+                throw new GradleException("Invalid artifact metadata: " + artifact);
+            }
+            String coordinates = artifact.substring(0, separator);
+            String fileName = artifact.substring(separator + 1);
             String license = licenseMap.get(coordinates);
             if (license == null) {
                 throw new GradleException(

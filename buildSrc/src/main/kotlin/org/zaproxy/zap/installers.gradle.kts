@@ -13,9 +13,9 @@ plugins {
     edu.sc.seis.launch4j
 }
 
-var install4jHomeDirValidated = false
 val install4jHomeDir: String? by project
 val install4jLicense: String? by project
+val install4jHomeDirAvailable = install4jHomeDir != null || Os.isFamily(Os.FAMILY_UNIX)
 
 val versionCatalog = extensions.getByType(VersionCatalogsExtension::class.java).named("libs")
 val install4jVersion = versionCatalog.findVersion("install4j-distribution").get().requiredVersion
@@ -120,7 +120,7 @@ val installers by tasks.registering(Install4jTask::class) {
     destination = layout.buildDirectory.dir("install4j").get().asFile
 
     doFirst {
-        require(install4jHomeDirValidated || install4jHomeDir != null) {
+        require(install4jHomeDirAvailable) {
             "The install4jHomeDir property must be set to build the installers."
         }
     }
@@ -148,13 +148,10 @@ if (install4jHomeDir == null && Os.isFamily(Os.FAMILY_UNIX)) {
         checksum("3d64c4a28d2b11ea26ae3cb8f1b0288de76811c1e0f37e06a2a4d8498b8130e7")
     }
 
-    val unpackInstall4jBin by tasks.registering(Copy::class) {
+    val unpackInstall4jBin by tasks.registering(Sync::class) {
         dependsOn(verifyInstall4jBin)
         from(tarTree(install4jBinFile))
         into(install4jBinUnpackDir)
-        doFirst {
-            delete(install4jBinUnpackDir)
-        }
     }
 
     installers {
@@ -165,6 +162,5 @@ if (install4jHomeDir == null && Os.isFamily(Os.FAMILY_UNIX)) {
         installDir = file("$install4jDir")
     }
 
-    install4jHomeDirValidated = true
 }
 

@@ -19,7 +19,6 @@
  */
 package org.zaproxy.zap.tasks;
 
-import java.io.File;
 import java.io.IOException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -49,7 +48,7 @@ public abstract class CreateMainRelease extends CreateTagAndGitHubRelease {
     private boolean tagExists() throws IOException {
         Repository repository =
                 new FileRepositoryBuilder()
-                        .setGitDir(new File(getProject().getRootDir(), ".git"))
+                        .setGitDir(getGitDirectory().get().getAsFile())
                         .build();
         return repository.findRef(getTag().get()) != null;
     }

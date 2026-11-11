@@ -1,6 +1,7 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
+    id("io.github.ben-manes.versions") version "0.67.0"
     id("com.diffplug.spotless")
     alias(libs.plugins.sonarqube)
 }

@@ -162,7 +162,7 @@ public abstract class UploadAssetsGitHubRelease extends DefaultTask {
     private String updateChecksumsTable(String previousBody) throws IOException {
         int idx = previousBody.indexOf(TABLE_HEADER_END);
         if (idx == -1) {
-            getProject().getLogger().warn("Table header not found, not adding checksums.");
+            getLogger().warn("Table header not found, not adding checksums.");
             return previousBody;
         }
 

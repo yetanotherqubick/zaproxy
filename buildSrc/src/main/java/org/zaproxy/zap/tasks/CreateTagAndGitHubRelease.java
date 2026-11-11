@@ -19,7 +19,6 @@
  */
 package org.zaproxy.zap.tasks;
 
-import java.io.File;
 import java.io.IOException;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -28,8 +27,10 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.Internal;
 import org.zaproxy.zap.GitHubUser;
 
 /** A task that creates a tag and a GitHub release. */
@@ -40,8 +41,18 @@ public abstract class CreateTagAndGitHubRelease extends CreateGitHubRelease {
     private static final String GIT_REMOTE_ORIGIN = "origin";
 
     public CreateTagAndGitHubRelease() {
+        getGitDirectory()
+                .convention(
+                        getProject()
+                                .getRootProject()
+                                .getLayout()
+                                .getProjectDirectory()
+                                .dir(".git"));
         setDescription("Creates a tag and GitHub release.");
     }
+
+    @Internal
+    public abstract DirectoryProperty getGitDirectory();
 
     @Input
     public abstract Property<String> getTagMessage();
@@ -60,7 +71,7 @@ public abstract class CreateTagAndGitHubRelease extends CreateGitHubRelease {
     private void createTag() throws Exception {
         Repository repository =
                 new FileRepositoryBuilder()
-                        .setGitDir(new File(getProject().getRootDir(), ".git"))
+                        .setGitDir(getGitDirectory().get().getAsFile())
                         .build();
         try (Git git = new Git(repository)) {
             URIish originUri = new URIish(GITHUB_BASE_URL + getRepo().get());

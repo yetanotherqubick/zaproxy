@@ -19,10 +19,14 @@
  */
 package org.zaproxy.zap.tasks;
 
-import de.undercouch.gradle.tasks.download.DownloadAction;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URLConnection;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,38 +35,27 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.InvalidUserDataException;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.file.RegularFileProperty;
-import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.work.DisableCachingByDefault;
 import org.zaproxy.zap.tasks.internal.MainAddOn;
 import org.zaproxy.zap.tasks.internal.MainAddOnsData;
 import org.zaproxy.zap.tasks.internal.Utils;
 
-public class DownloadMainAddOns extends DefaultTask {
-
-    private final RegularFileProperty addOnsData;
-    private final DirectoryProperty outputDir;
-
-    public DownloadMainAddOns() {
-        ObjectFactory objects = getProject().getObjects();
-        this.addOnsData = objects.fileProperty();
-        this.outputDir = objects.directoryProperty();
-    }
+@DisableCachingByDefault(because = "Downloads add-ons from remote URLs.")
+public abstract class DownloadMainAddOns extends DefaultTask {
 
     @InputFile
-    public RegularFileProperty getAddOnsData() {
-        return addOnsData;
-    }
+    public abstract RegularFileProperty getAddOnsData();
 
     @OutputDirectory
-    public DirectoryProperty getOutputDir() {
-        return outputDir;
-    }
+    public abstract DirectoryProperty getOutputDir();
 
     @TaskAction
     public void download() throws IOException {
         MainAddOnsData data = parseData();
+        Files.createDirectories(getOutputDir().get().getAsFile().toPath());
         checkExistingFiles(data);
 
         for (MainAddOn addOn : data.getAddOns()) {
@@ -70,7 +63,7 @@ public class DownloadMainAddOns extends DefaultTask {
         }
     }
 
-    private void checkExistingFiles(MainAddOnsData data) {
+    private void checkExistingFiles(MainAddOnsData data) throws IOException {
         File[] files = getOutputDir().get().getAsFile().listFiles();
         if (files == null || files.length == 0) {
             return;
@@ -87,33 +80,36 @@ public class DownloadMainAddOns extends DefaultTask {
         }
 
         for (Path file : existingFiles) {
-            getProject().delete(file);
+            Files.deleteIfExists(file);
         }
     }
 
     private void downloadFile(MainAddOn addOn) throws IOException {
         Path file = addOn.getOutputFile();
-        DownloadAction downloadAction = new DownloadAction(getProject());
-        downloadAction.src(addOn.getUrl());
-        downloadAction.dest(file.toFile());
+        Path temporaryFile = Files.createTempFile(file.getParent(), file.getFileName().toString(), ".part");
         try {
-            downloadAction.execute().get();
-        } catch (Exception e) {
-            if (e instanceof InterruptedException) {
-                Thread.currentThread().interrupt();
-            }
-            throw new IOException("Failed to download:", e);
-        }
+            URLConnection connection = URI.create(addOn.getUrl()).toURL().openConnection();
+            connection.setConnectTimeout(60_000);
+            connection.setReadTimeout(60_000);
 
-        String computedHash = Utils.hash(file, addOn);
-        if (!computedHash.equalsIgnoreCase(addOn.getHash())) {
-            throw new IOException(
-                    "Hash mismatch for file "
-                            + file
-                            + " expected "
-                            + addOn.getHash()
-                            + " but got "
-                            + computedHash);
+            try (InputStream input = connection.getInputStream()) {
+                Files.copy(input, temporaryFile, StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            String computedHash = Utils.hash(temporaryFile, addOn);
+            if (!computedHash.equalsIgnoreCase(addOn.getHash())) {
+                throw new IOException(
+                        "Hash mismatch for file "
+                                + file
+                                + " expected "
+                                + addOn.getHash()
+                                + " but got "
+                                + computedHash);
+            }
+
+            Files.move(temporaryFile, file, StandardCopyOption.REPLACE_EXISTING);
+        } finally {
+            Files.deleteIfExists(temporaryFile);
         }
     }
 

@@ -6,10 +6,6 @@ pluginManagement {
     }
 }
 
-plugins {
-    id("io.github.ben-manes.versions") version "0.67.0"
-}
-
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 
