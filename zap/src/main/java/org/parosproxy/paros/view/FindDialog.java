@@ -48,7 +48,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.AbstractReferenceMap.ReferenceStrength;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.parosproxy.paros.Constant;
@@ -62,9 +63,8 @@ public class FindDialog extends AbstractDialog {
 
     private static final Logger LOGGER = LogManager.getLogger(FindDialog.class);
 
-    @SuppressWarnings("unchecked")
     private static Map<Object, FindDialog> parentsMap =
-            new ReferenceMap(ReferenceMap.WEAK, ReferenceMap.HARD);
+            new ReferenceMap<>(ReferenceStrength.WEAK, ReferenceStrength.HARD);
 
     private JPanel jPanel = null;
     private JButton btnFind = null;

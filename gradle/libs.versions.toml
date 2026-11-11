@@ -11,6 +11,7 @@ jgrapht = "1.5.3"
 github-api = "1.330"
 bridge-method-annotation = "1.24"
 commons-configuration2 = "2.11.0"
+commons-collections4 = "4.6.0"
 crowdin-plugin = "0.6.0"
 google-java-format = "1.28.0"
 install4j-distribution = "11.0.5"
@@ -30,7 +31,9 @@ bytebuddy = "net.bytebuddy:byte-buddy:1.18.17"
 bridge-method-annotation = { module = "com.infradna.tool:bridge-method-annotation", version.ref = "bridge-method-annotation" }
 commons-beanutils = "commons-beanutils:commons-beanutils:1.11.0"
 commons-codec = "commons-codec:commons-codec:1.23.0"
-commons-collections = "commons-collections:commons-collections:3.2.2"
+# Retained for add-ons that still use the Commons Collections 3.x package.
+commons-collections3 = "commons-collections:commons-collections:3.2.2"
+commons-collections4 = { module = "org.apache.commons:commons-collections4", version.ref = "commons-collections4" }
 commons-configuration = "commons-configuration:commons-configuration:1.10"
 commons-configuration2 = { module = "org.apache.commons:commons-configuration2", version.ref = "commons-configuration2" }
 commons-csv = "org.apache.commons:commons-csv:1.14.1"

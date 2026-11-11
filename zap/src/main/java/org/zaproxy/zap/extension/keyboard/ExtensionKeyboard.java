@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,7 +45,7 @@ public class ExtensionKeyboard extends ExtensionAdaptor {
 
     private OptionsKeyboardShortcutPanel optionsKeyboardPanel = null;
     private KeyboardParam keyboardParam = null;
-    private ReferenceMap map = new ReferenceMap();
+    private ReferenceMap<String, KeyboardMapping> map = new ReferenceMap<>();
     private KeyboardAPI api = null;
 
     /**
@@ -134,8 +134,7 @@ public class ExtensionKeyboard extends ExtensionAdaptor {
             return;
         }
 
-        for (Object obj : map.values()) {
-            KeyboardMapping km = (KeyboardMapping) obj;
+        for (KeyboardMapping km : map.values()) {
             if (isIdentifierWithDuplicatedAccelerator(km.getIdentifier())) {
                 continue;
             }
@@ -272,7 +271,7 @@ public class ExtensionKeyboard extends ExtensionAdaptor {
     }
 
     public KeyStroke getShortcut(String identifier) {
-        KeyboardMapping mapping = (KeyboardMapping) this.map.get(identifier);
+        KeyboardMapping mapping = this.map.get(identifier);
         if (mapping == null) {
             return null;
         }
@@ -280,7 +279,7 @@ public class ExtensionKeyboard extends ExtensionAdaptor {
     }
 
     public void setShortcut(String identifier, KeyStroke ks) {
-        KeyboardMapping mapping = (KeyboardMapping) this.map.get(identifier);
+        KeyboardMapping mapping = this.map.get(identifier);
         if (mapping == null) {
             LOGGER.error("No mapping found for keyboard shortcut: {}", identifier);
             return;

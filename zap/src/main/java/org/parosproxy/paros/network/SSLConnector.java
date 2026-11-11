@@ -89,8 +89,8 @@ import javax.net.ssl.StandardConstants;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509ExtendedTrustManager;
 import javax.net.ssl.X509KeyManager;
-import org.apache.commons.collections.MapIterator;
-import org.apache.commons.collections.map.LRUMap;
+import org.apache.commons.collections4.MapIterator;
+import org.apache.commons.collections4.map.LRUMap;
 import org.apache.commons.httpclient.ConnectTimeoutException;
 import org.apache.commons.httpclient.params.HttpConnectionParams;
 import org.apache.logging.log4j.LogManager;
@@ -174,7 +174,7 @@ public class SSLConnector
      * @see #getCachedMisconfiguredHost(String, int)
      * @see #removeStaleCachedMisconfiguredHosts()
      */
-    private static LRUMap misconfiguredHosts;
+    private static LRUMap<String, MisconfiguredHostCacheEntry> misconfiguredHosts;
 
     /**
      * Time stamp of last time the cache of misconfigured hosts was checked for stale entries.
@@ -213,7 +213,7 @@ public class SSLConnector
             clientSslSocketsDecorator = new ClientSslSocketsDecorator();
 
             clientSSLSockFactory = getClientSocketFactory(SSL);
-            misconfiguredHosts = new LRUMap(10);
+            misconfiguredHosts = new LRUMap<>(10);
         }
     }
 
@@ -531,10 +531,11 @@ public class SSLConnector
         }
         timeStampLastStaleCheck = currentTime;
 
-        for (MapIterator it = misconfiguredHosts.mapIterator(); it.hasNext(); ) {
+        for (MapIterator<String, MisconfiguredHostCacheEntry> it = misconfiguredHosts.mapIterator();
+                it.hasNext(); ) {
             it.next();
 
-            MisconfiguredHostCacheEntry entry = (MisconfiguredHostCacheEntry) it.getValue();
+            MisconfiguredHostCacheEntry entry = it.getValue();
             if (entry.isStale(currentTime)) {
                 logger.info(
                         "Removing stale cached address of misconfigured (\"unrecognized_name\") host [host={}, port={}], following connections will be attempted with the hostname.",
@@ -552,8 +553,7 @@ public class SSLConnector
             }
             removeStaleCachedMisconfiguredHosts();
 
-            MisconfiguredHostCacheEntry entry =
-                    (MisconfiguredHostCacheEntry) misconfiguredHosts.get(host + port);
+            MisconfiguredHostCacheEntry entry = misconfiguredHosts.get(host + port);
             if (entry != null) {
                 return entry.getAddress();
             }

@@ -18,6 +18,7 @@ licenses:
   net.htmlparser.jericho:jericho-html: "EPL / LGPL dual license"
   net.sf.ezmorph:ezmorph: "Apache 2.0"
   net.sf.json-lib:json-lib: 'MIT + "Good, Not Evil"'
+  org.apache.commons:commons-collections4: "Apache 2.0"
   org.apache.commons:commons-csv: "Apache 2.0"
   org.apache.commons:commons-lang3: "Apache 2.0"
   org.apache.commons:commons-text: "Apache 2.0"

@@ -115,7 +115,7 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
-import org.apache.commons.collections.map.ReferenceMap;
+import org.apache.commons.collections4.map.ReferenceMap;
 import org.apache.commons.configuration.FileConfiguration;
 import org.apache.commons.httpclient.URIException;
 import org.apache.logging.log4j.LogManager;
@@ -183,9 +183,8 @@ public class ExtensionHistory extends ExtensionAdaptor implements SessionChanged
     private String linkWithSitesTreeBaseUri;
 
     // Used to cache hrefs not added into the historyList
-    @SuppressWarnings("unchecked")
     private Map<Integer, HistoryReference> historyIdToRef =
-            Collections.synchronizedMap(new ReferenceMap());
+            Collections.synchronizedMap(new ReferenceMap<>());
 
     /**
      * Flag that indicates whether or not the session is changing. To prevent updating the table

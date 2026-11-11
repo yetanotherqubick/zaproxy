@@ -92,7 +92,9 @@ dependencies {
     implementation(libs.javaSemver)
     implementation(libs.commons.beanutils)
     implementation(libs.commons.codec)
-    implementation(libs.commons.collections)
+    // Retained at runtime for add-ons that still use the Commons Collections 3.x package.
+    runtimeOnly(libs.commons.collections3)
+    implementation(libs.commons.collections4)
     api(libs.commons.configuration)
     api(libs.commons.httpclient) {
         exclude(group = "commons-codec", module = "commons-codec")

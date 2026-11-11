@@ -35,7 +35,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.jdesktop.swingx.JXTable;
 import org.parosproxy.paros.Constant;
 import org.parosproxy.paros.extension.Extension;
